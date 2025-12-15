@@ -1,0 +1,36 @@
+@import url("../css/components/navbar.css");
+@import url("../components/font.css");
+@import url("../css/components/main-content.css");
+@import url("../css/components/scrollbar.css");
+
+.stats-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.stat-card {
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.stat-card .label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 10px;
+  opacity: 0.8;
+}
+
+.stat-card .value {
+  font-size: 32px;
+  font-weight: bold;
+}

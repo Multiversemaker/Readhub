@@ -1,0 +1,69 @@
+@import url("../css/components/navbar.css");
+@import url("../components/font.css");
+@import url("../css/components/main-content.css");
+@import url("../css/components/scrollbar.css");
+
+/* Header Section */
+.header-section {
+  margin-top: 10px;
+}
+
+.header-overlay {
+  background: #0C2C5F;
+  padding: 25px;
+  border-radius: 10px;
+}
+
+.header-overlay .heading {
+  color: white;
+  margin: 0;
+  font-size: 28px;
+}
+
+/* Search */
+.search-input {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+/* Button Tambah Buku */
+.btn-add-book {
+  background: #0C2C5F;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+}
+
+.btn-add-book:hover {
+  background: #ffffff;
+  color: #0C2C5F;
+  border: 1px solid #0C2C5F;
+}
+
+/* Table */
+.custom-table-wrapper {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.custom-table thead tr {
+  background: #f0f2f7;
+  color: #333;
+}
+
+.custom-table th,
+.custom-table td {
+  padding: 14px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.custom-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.text-danger:hover {
+  font-weight: bold;
+}

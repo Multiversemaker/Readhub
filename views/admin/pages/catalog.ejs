@@ -1,0 +1,53 @@
+<main id="mainContent" class="content shifted-collapsed p-4">
+
+  <div class="header-section">
+    <div class="header-overlay">
+      <h1 class="heading">Katalog</h1>
+    </div>
+  </div>
+
+  <div class="action-section d-flex justify-content-between align-items-center mt-4">
+    <input 
+      type="text" 
+      class="form-control search-input"
+      placeholder="Cari buku berdasarkan judul..."
+      style="width: 300px;"
+    />
+
+    <a href="/admin/books/add-book" class="btn btn-primary btn-add-book">
+      + Tambah Buku Baru
+    </a>
+  </div>
+
+  <div class="table-section mt-4">
+    <div class="table-responsive custom-table-wrapper">
+      <table class="table custom-table">
+        <thead>
+          <tr>
+            <th>Judul Buku</th>
+            <th>Penulis</th>
+            <th>Tipe</th>
+            <th>Stok</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% books.forEach(book => { %>
+            <tr>
+              <td><%= book.judul %></td>
+              <td><%= book.penulis %></td>
+              <td><%= book.tipe?.tipe %></td>
+              <td><%= book.stok_tersedia || "N/A" %></td>
+              <td>
+                <a href="/admin/books/edit-book/<%= book.id_buku %>" class="text-primary">Edit</a>
+                &nbsp;|&nbsp;
+                <a href="/admin/books/delete/<%= book.id_buku %>" class="text-danger">Hapus</a>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</main>
