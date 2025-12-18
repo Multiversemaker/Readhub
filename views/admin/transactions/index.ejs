@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaksi Peminjaman</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+
+    <%- include('../components/navigational/sidebar') %>
+
+    <div class="main-content">
+        <%- include('../components/navigational/navbar', { title: 'Data Peminjaman Buku Fisik' }) %>
+
+        <main class="content-body container-fluid mt-4">
+            
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3>Riwayat Peminjaman</h3>
+                <a href="/admin/transactions/create" class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i> Tambah Peminjaman
+                </a>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Peminjam</th>
+                                <th>Judul Buku</th>
+                                <th>Tgl Pinjam</th>
+                                <th>Jatuh Tempo</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% transactions.forEach(t => { %>
+                            <tr>
+                                <td class="fw-bold">
+                                    <%= t.user ? t.user.nama : 'User Terhapus' %>
+                                </td>
+                                
+                                <td>
+                                    <%= t.buku ? t.buku.judul : 'Buku Terhapus' %>
+                                </td>
+
+                                <td><%= new Date(t.tanggal_pinjam).toLocaleDateString('id-ID') %></td>
+                                
+                                <% 
+                                    let today = new Date();
+                                    let dueDate = new Date(t.tanggal_jatuh_tempo);
+                                    let isLate = today > dueDate && t.status == 'dipinjam';
+                                %>
+                                <td class="<%= isLate ? 'text-danger fw-bold' : '' %>">
+                                    <%= dueDate.toLocaleDateString('id-ID') %>
+                                    <% if(isLate) { %> <br><small class="badge bg-danger">Terlambat!</small> <% } %>
+                                </td>
+
+                                <td>
+                                    <% if(t.status == 'dipinjam') { %>
+                                        <span class="badge bg-primary">Sedang Dipinjam</span>
+                                    <% } else { %>
+                                        <span class="badge bg-success">Sudah Kembali</span>
+                                    <% } %>
+                                </td>
+                                <td>
+                                    <% if(t.status == 'dipinjam') { %>
+                                        <form action="/admin/transactions/return/<%= t.id_peminjaman_fisik %>" method="POST" onsubmit="return confirm('Proses pengembalian buku ini?');">
+                                            <button type="submit" class="btn btn-sm btn-outline-success">
+                                                <i class="bi bi-check-circle"></i> Kembalikan
+                                            </button>
+                                        </form>
+                                    <% } else { %>
+                                        <span class="text-muted"><i class="bi bi-check-all"></i> Selesai</span>
+                                        <% if(t.tanggal_kembali) { %>
+                                            <br><small class="text-muted"><%= new Date(t.tanggal_kembali).toLocaleDateString('id-ID') %></small>
+                                        <% } %>
+                                    <% } %>
+                                </td>
+                            </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
