@@ -20,24 +20,38 @@ function initModels(sequelize) {
   var tipe = _tipe(sequelize, DataTypes);
   var user = _user(sequelize, DataTypes);
 
-  peminjaman_digital.belongsTo(buku, { as: "buku_id_buku_buku", foreignKey: "buku_id_buku"});
-  buku.hasMany(peminjaman_digital, { as: "peminjaman_digitals", foreignKey: "buku_id_buku"});
-  peminjaman_fisik.belongsTo(buku, { as: "buku_id_buku_buku", foreignKey: "buku_id_buku"});
-  buku.hasMany(peminjaman_fisik, { as: "peminjaman_fisiks", foreignKey: "buku_id_buku"});
-  buku.belongsTo(kategori, { as: "kategori_idkategori_kategori", foreignKey: "kategori_idkategori"});
-  kategori.hasMany(buku, { as: "bukus", foreignKey: "kategori_idkategori"});
-  denda.belongsTo(pembayaran, { as: "pembayaran_idpembayaran_pembayaran", foreignKey: "pembayaran_idpembayaran"});
-  pembayaran.hasMany(denda, { as: "dendas", foreignKey: "pembayaran_idpembayaran"});
-  denda.belongsTo(peminjaman_fisik, { as: "peminjaman_fisik_idpeminjaman_fisik_peminjaman_fisik", foreignKey: "peminjaman_fisik_idpeminjaman_fisik"});
-  peminjaman_fisik.hasMany(denda, { as: "dendas", foreignKey: "peminjaman_fisik_idpeminjaman_fisik"});
-  user.belongsTo(role, { as: "role_idrole_role", foreignKey: "role_idrole"});
-  role.hasMany(user, { as: "users", foreignKey: "role_idrole"});
-  buku.belongsTo(tipe, { as: "tipe_idtipe_tipe", foreignKey: "tipe_idtipe"});
-  tipe.hasMany(buku, { as: "bukus", foreignKey: "tipe_idtipe"});
-  peminjaman_digital.belongsTo(user, { as: "user_id_user_user", foreignKey: "user_id_user"});
-  user.hasMany(peminjaman_digital, { as: "peminjaman_digitals", foreignKey: "user_id_user"});
-  peminjaman_fisik.belongsTo(user, { as: "user_id_user_user", foreignKey: "user_id_user"});
-  user.hasMany(peminjaman_fisik, { as: "peminjaman_fisiks", foreignKey: "user_id_user"});
+ 
+  
+  buku.belongsTo(kategori, { as: "kategori", foreignKey: "kategori_idkategori"});
+  kategori.hasMany(buku, { as: "buku", foreignKey: "kategori_idkategori"});
+  
+  buku.belongsTo(tipe, { as: "tipe", foreignKey: "tipe_idtipe"});
+  tipe.hasMany(buku, { as: "buku", foreignKey: "tipe_idtipe"});
+
+ 
+  peminjaman_digital.belongsTo(buku, { as: "buku", foreignKey: "buku_id_buku"});
+  buku.hasMany(peminjaman_digital, { as: "peminjaman_digital", foreignKey: "buku_id_buku"});
+  
+  peminjaman_digital.belongsTo(user, { as: "user", foreignKey: "user_id_user"});
+  user.hasMany(peminjaman_digital, { as: "peminjaman_digital", foreignKey: "user_id_user"});
+
+  
+  peminjaman_fisik.belongsTo(buku, { as: "buku", foreignKey: "buku_id_buku"});
+  buku.hasMany(peminjaman_fisik, { as: "peminjaman_fisik", foreignKey: "buku_id_buku"});
+  
+  peminjaman_fisik.belongsTo(user, { as: "user", foreignKey: "user_id_user"});
+  user.hasMany(peminjaman_fisik, { as: "peminjaman_fisik", foreignKey: "user_id_user"});
+
+
+  denda.belongsTo(pembayaran, { as: "pembayaran", foreignKey: "pembayaran_idpembayaran"});
+  pembayaran.hasMany(denda, { as: "denda", foreignKey: "pembayaran_idpembayaran"});
+  
+  denda.belongsTo(peminjaman_fisik, { as: "peminjaman_fisik", foreignKey: "peminjaman_fisik_idpeminjaman_fisik"});
+  peminjaman_fisik.hasMany(denda, { as: "denda", foreignKey: "peminjaman_fisik_idpeminjaman_fisik"});
+
+ 
+  user.belongsTo(role, { as: "role", foreignKey: "role_idrole"});
+  role.hasMany(user, { as: "user", foreignKey: "role_idrole"});
 
   return {
     buku,
