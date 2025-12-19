@@ -1,0 +1,95 @@
+<main id="mainContent" class="content shifted-collapsed p-4">
+
+  <!-- HEADER -->
+  <div class="header-section mb-4">
+    <div class="header-overlay">
+      <h1 class="heading">Edit Pengguna</h1>
+      <p class="subheading">Perbarui data pengguna</p>
+    </div>
+  </div>
+
+  <!-- FORM CARD -->
+  <div class="card p-4 shadow-sm col-md-10 mx-auto">
+
+    <form action="/admin/user-managements/update/<%= user.id_user %>" method="POST">
+
+      <div class="row g-3">
+
+        <!-- NAMA -->
+        <div class="col-md-6">
+          <label class="form-label">Nama Lengkap</label>
+          <input
+            type="text"
+            name="nama_lengkap"
+            class="form-control"
+            value="<%= user.nama %>"
+            required
+          >
+        </div>
+
+        <!-- EMAIL -->
+        <div class="col-md-6">
+          <label class="form-label">Email</label>
+          <input
+            type="email"
+            name="email"
+            class="form-control"
+            value="<%= user.email %>"
+            required
+          >
+        </div>
+
+        <!-- PASSWORD (OPTIONAL) -->
+        <div class="col-md-6">
+          <label class="form-label">
+            Password Baru
+            <small class="text-muted">(Kosongkan jika tidak diubah)</small>
+          </label>
+          <input
+            type="password"
+            name="password"
+            class="form-control"
+            placeholder="Password baru"
+          >
+        </div>
+
+        <!-- ROLE -->
+        <div class="col-md-6">
+          <label class="form-label">Role</label>
+          <select name="role" class="form-select" required>
+            <option value="anggota" <%= user.role === 'anggota' ? 'selected' : '' %>>
+              Anggota
+            </option>
+            <option value="admin" <%= user.role === 'admin' ? 'selected' : '' %>>
+              Admin
+            </option>
+          </select>
+        </div>
+
+        <!-- ALAMAT -->
+        <div class="col-md-12">
+          <label class="form-label">Alamat</label>
+          <textarea
+            name="alamat"
+            class="form-control"
+            rows="3"
+          ><%= user.alamat %></textarea>
+        </div>
+
+      </div>
+
+      <!-- ACTION -->
+      <div class="d-flex justify-content-end gap-2 mt-4">
+        <a href="/admin/user-managements" class="btn btn-secondary">
+          Batal
+        </a>
+        <button type="submit" class="btn btn-danger">
+          Simpan Perubahan
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+
+</main>

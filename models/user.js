@@ -16,11 +16,19 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: true
     },
     password: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.CHAR(100),
       allowNull: true
     },
     tanggal_daftar: {
       type: DataTypes.DATE,
+      allowNull: true
+    },
+    tanggal_lahir: {
+      type: DataTypes.DATEONLY,
+      allowNull: true
+    },
+    alamat: {
+      type: DataTypes.TEXT,
       allowNull: true
     },
     role_idrole: {

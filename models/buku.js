@@ -8,23 +8,31 @@ module.exports = function (sequelize, DataTypes) {
       primaryKey: true
     },
     judul: {
-      type: DataTypes.STRING(45),
+      type: DataTypes.STRING(100),
       allowNull: true
     },
     penulis: {
-      type: DataTypes.STRING(45),
+      type: DataTypes.STRING(100),
       allowNull: true
     },
     stok_tersedia: {
-      type: DataTypes.STRING(45),
+      type: DataTypes.INTEGER,
       allowNull: true
     },
     file_path: {
-      type: DataTypes.STRING(45),
+      type: DataTypes.STRING(255),
       allowNull: true
     },
     cover_image: {
-      type: DataTypes.STRING(45),
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    tahun_terbit: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    deskripsi: {
+      type: DataTypes.TEXT,
       allowNull: true
     },
     kategori_idkategori: {
@@ -83,7 +91,5 @@ module.exports = function (sequelize, DataTypes) {
       as: "tipe"
     });
   };
-
   return Buku;
-
 };

@@ -1,0 +1,134 @@
+@import url("../css/components/navbar.css");
+@import url("../components/font.css");
+@import url("../css/components/main-content.css");
+@import url("../css/components/scrollbar.css");
+
+/* HEADER */
+.header-section {
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  border-radius: 14px;
+  color: white;
+}
+
+.header-overlay {
+  padding: 24px;
+}
+
+.heading {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.subheading {
+  opacity: 0.85;
+  margin-top: 6px;
+}
+
+/* ACTION BAR */
+.action-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.section-title {
+  margin: 0;
+  font-weight: 700;
+}
+
+.btn-primary-custom {
+  background: #2563eb;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.btn-primary-custom i {
+  margin-right: 6px;
+}
+
+/* CONTENT CARD */
+.content-card {
+  background: white;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 6px 16px rgba(0,0,0,.06);
+}
+
+/* TABLE */
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.custom-table th,
+.custom-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #eee;
+  vertical-align: middle;
+}
+
+.custom-table th {
+  background: #f8fafc;
+  font-weight: 600;
+}
+
+/* STATUS */
+.badge-primary {
+  background: #3b82f6;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.badge-success {
+  background: #16a34a;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.badge-danger {
+  background: #dc2626;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 14px;
+  font-size: 11px;
+  margin-left: 6px;
+}
+
+/* LATE */
+.late {
+  color: #dc2626;
+  font-weight: 700;
+}
+
+/* ACTION BUTTON */
+.btn-action {
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.btn-action.success {
+  background: #22c55e;
+  color: white;
+}
+
+/* DONE */
+.done {
+  color: #16a34a;
+  font-weight: 600;
+}
+
+.done-date {
+  font-size: 12px;
+  color: #777;
+}

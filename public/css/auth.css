@@ -1,0 +1,6 @@
+@import url("../components/font.css");
+@import url("../css/auth/login.css");
+
+.welcome-text,.heading,.text{
+     font-family: "Playfair Display", serif;
+}

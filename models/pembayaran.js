@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('pembayaran', {
+module.exports = function (sequelize, DataTypes) {
+  const Pembayaran = sequelize.define('pembayaran', {
     idpembayaran: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -26,4 +26,13 @@ module.exports = function(sequelize, DataTypes) {
       },
     ]
   });
+  Pembayaran.associate = (models) => {
+    // Relasi ke denda
+    Pembayaran.hasMany(models.denda, {
+      foreignKey: 'pembayaran_idpembayaran',
+      as: 'denda'
+    });
+  };
+
+  return Pembayaran;
 };

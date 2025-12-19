@@ -4,7 +4,7 @@ const { buku: Book, kategori: Kategori, tipe: Tipe } = require("../../../models"
 const { formatDate } = require("../../../utils/dateFormatter");
 const { escapeRegExp } = require("../../../utils/escapeRegExp");
 
-const DATE_FIELD = "tanggal_terbit"; // Sesuaikan dg kolom tabel
+const DATE_FIELD = "tahun_terbit"; // Sesuaikan dg kolom tabel
 
 exports.getAllBooksadmin = async (req, res) => {
   try {

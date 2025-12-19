@@ -1,0 +1,59 @@
+<main id="mainContent" class="content shifted-collapsed p-4">
+
+  <!-- HEADER -->
+  <div class="header-section">
+    <div class="header-overlay">
+      <h1 class="heading">Tambah Peminjaman</h1>
+    </div>
+  </div>
+
+  <!-- FORM -->
+  <div class="card p-4 shadow-sm mt-4">
+    <form action="/admin/transactions/store" method="POST">
+
+      <div class="row g-3">
+
+        <!-- PEMINJAM -->
+        <div class="col-md-6">
+          <label class="form-label">Nama Peminjam</label>
+          <select name="id_pengguna" class="form-select" required>
+            <option value="">-- Pilih Anggota --</option>
+            <% users.forEach(user => { %>
+              <option value="<%= user.id_user %>">
+                <%= user.nama %>
+              </option>
+            <% }) %>
+          </select>
+        </div>
+
+        <!-- BUKU -->
+        <div class="col-md-6">
+          <label class="form-label">Judul Buku</label>
+          <select name="id_buku" class="form-select" required>
+            <option value="">-- Pilih Buku --</option>
+            <% books.forEach(book => { %>
+              <% if(book.stok_tersedia > 0) { %>
+                <option value="<%= book.id_buku %>">
+                  <%= book.judul %> (Stok: <%= book.stok_tersedia %>)
+                </option>
+              <% } %>
+            <% }) %>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- ACTION -->
+      <div class="d-flex justify-content-end gap-2 mt-4">
+        <a href="/admin/transactions" class="btn btn-secondary">
+          Batal
+        </a>
+        <button type="submit" class="btn btn-success">
+          Simpan Transaksi
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+</main>

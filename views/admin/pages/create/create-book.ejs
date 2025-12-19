@@ -1,0 +1,104 @@
+<main id="mainContent" class="content shifted-collapsed p-4">
+
+  <!-- HEADER -->
+  <div class="header-section">
+    <div class="header-overlay">
+      <h1 class="heading">Tambah Buku</h1>
+    </div>
+  </div>
+
+  <!-- FORM -->
+  <div class="card p-4 shadow-sm">
+    <form action="/admin/books" method="POST" enctype="multipart/form-data">
+
+      <div class="row">
+        <!-- COVER -->
+        <div class="col-md-3">
+          <div class="book-cover-preview">
+            <img src="/images/default-book.png" id="coverPreview" class="img-fluid rounded shadow-sm" alt="Cover Buku">
+            <input
+              type="file"
+              name="cover"
+              class="form-control mt-3"
+              accept="image/*"
+              onchange="previewImage(event)"
+            />
+          </div>
+        </div>
+
+        <!-- INPUT -->
+        <div class="col-md-9">
+          <div class="row g-3">
+
+            <div class="col-md-6">
+              <label class="form-label">Judul Buku</label>
+              <input type="text" name="judul" class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Penulis</label>
+              <input type="text" name="penulis" class="form-control">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Penerbit</label>
+              <input type="text" name="penerbit" class="form-control">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Tahun Terbit</label>
+              <input type="number" name="tahun_terbit" class="form-control" min="1900" max="2100">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Kategori</label>
+              <select name="kategori" class="form-select" required>
+                <% kategoriList.forEach(k => { %>
+                  <option value="<%= k.idkategori %>"><%= k.nama_kategori %></option>
+                <% }) %>
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Tipe Buku</label>
+              <select name="tipe" id="tipeSelect" class="form-select" required>
+                <option value="fisik">Buku Fisik</option>
+                <option value="digital">Buku Digital</option>
+              </select>
+            </div>
+
+            <!-- FISIK -->
+            <div class="col-md-6" id="stokGroup">
+              <label class="form-label">Stok</label>
+              <input type="number" name="stok" class="form-control">
+            </div>
+
+            <div class="col-md-6" id="rakGroup">
+              <label class="form-label">Lokasi Rak</label>
+              <input type="text" name="lokasi_rak" class="form-control">
+            </div>
+
+            <!-- DIGITAL -->
+            <div class="col-md-6 d-none" id="digitalFileGroup">
+              <label class="form-label">File Buku (PDF)</label>
+              <input type="file" name="file_buku" class="form-control" accept=".pdf">
+            </div>
+
+            <div class="col-md-12">
+              <label class="form-label">Deskripsi</label>
+              <textarea name="deskripsi" class="form-control" rows="3"></textarea>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ACTION -->
+      <div class="d-flex justify-content-end gap-2 mt-4">
+        <a href="/admin/books" class="btn btn-secondary">Batal</a>
+        <button type="submit" class="btn btn-danger">Simpan Buku</button>
+      </div>
+
+    </form>
+  </div>
+</main>

@@ -1,0 +1,90 @@
+<main id="mainContent" class="content shifted-collapsed p-4">
+
+  <!-- HEADER -->
+  <div class="header-section mb-4">
+    <div class="header-overlay">
+      <h1 class="heading">Tambah Pengguna</h1>
+      <p class="subheading">Form pendaftaran pengguna baru</p>
+    </div>
+  </div>
+
+  <!-- FORM CARD -->
+  <div class="card p-4 shadow-sm col-md-10 mx-auto">
+
+    <form action="/admin/user-managements/store" method="POST">
+
+      <div class="row g-3">
+
+        <!-- NAMA -->
+        <div class="col-md-6">
+          <label class="form-label">Nama Lengkap</label>
+          <input
+            type="text"
+            name="nama_lengkap"
+            class="form-control"
+            placeholder="Nama lengkap pengguna"
+            required
+          >
+        </div>
+
+        <!-- EMAIL -->
+        <div class="col-md-6">
+          <label class="form-label">Email</label>
+          <input
+            type="email"
+            name="email"
+            class="form-control"
+            placeholder="email@example.com"
+            required
+          >
+        </div>
+
+        <!-- PASSWORD -->
+        <div class="col-md-6">
+          <label class="form-label">Password</label>
+          <input
+            type="password"
+            name="password"
+            class="form-control"
+            placeholder="Masukkan password"
+            required
+          >
+        </div>
+
+        <!-- ROLE -->
+        <div class="col-md-6">
+          <label class="form-label">Role</label>
+          <select name="role" class="form-select" required>
+            <option value="anggota">Anggota</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+
+        <!-- ALAMAT -->
+        <div class="col-md-12">
+          <label class="form-label">Alamat</label>
+          <textarea
+            name="alamat"
+            class="form-control"
+            rows="3"
+            placeholder="Alamat lengkap pengguna"
+          ></textarea>
+        </div>
+
+      </div>
+
+      <!-- ACTION -->
+      <div class="d-flex justify-content-end gap-2 mt-4">
+        <a href="/admin/user-managements" class="btn btn-secondary">
+          Batal
+        </a>
+        <button type="submit" class="btn btn-danger">
+          Simpan User
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+
+</main>

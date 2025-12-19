@@ -8,5 +8,7 @@ router.get("/login", authController.loginPage);
 router.post("/login", authController.login);
 router.get("/register", authController.registerPage);
 router.post("/register", upload.single("photo"), authController.register);
+router.get("/auth/dropbox",authController.redirectToDropbox);
+router.get("/auth/dropbox/callback", authController.dropboxCallback);
 
 module.exports = router;

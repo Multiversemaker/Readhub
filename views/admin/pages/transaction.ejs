@@ -1,0 +1,95 @@
+<main id="mainContent" class="content shifted-collapsed p-4">
+
+  <!-- HEADER -->
+  <div class="header-section mb-4">
+    <div class="header-overlay">
+      <h1 class="heading">Transaksi Peminjaman</h1>
+      <p class="subheading">Kelola peminjaman & pengembalian buku fisik</p>
+    </div>
+  </div>
+
+  <!-- ACTION BAR -->
+  <div class="action-section mb-4">
+    <h3 class="section-title">Riwayat Peminjaman</h3>
+    <a href="/admin/transactions/create" class="btn-primary-custom">
+      <i class="bi bi-plus-circle"></i> Tambah Peminjaman
+    </a>
+  </div>
+
+  <!-- TABLE CARD -->
+  <div class="content-card">
+    <table class="custom-table">
+      <thead>
+        <tr>
+          <th>Peminjam</th>
+          <th>Judul Buku</th>
+          <th>Tgl Pinjam</th>
+          <th>Jatuh Tempo</th>
+          <th>Status</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% transactions.forEach(t => { %>
+          <tr>
+            <td class="fw-bold">
+              <%= t.user ? t.user.nama : 'User Terhapus' %>
+            </td>
+
+            <td>
+              <%= t.buku ? t.buku.judul : 'Buku Terhapus' %>
+            </td>
+
+            <td>
+              <%= new Date(t.tanggal_pinjam).toLocaleDateString('id-ID') %>
+            </td>
+
+            <% 
+              let today = new Date();
+              let dueDate = new Date(t.tanggal_jatuh_tempo);
+              let isLate = today > dueDate && t.status == 'dipinjam';
+            %>
+
+            <td class="<%= isLate ? 'late' : '' %>">
+              <%= dueDate.toLocaleDateString('id-ID') %>
+              <% if(isLate) { %>
+                <span class="badge-danger">Terlambat</span>
+              <% } %>
+            </td>
+
+            <td>
+              <% if(t.status == 'dipinjam') { %>
+                <span class="badge-primary">Dipinjam</span>
+              <% } else { %>
+                <span class="badge-success">Kembali</span>
+              <% } %>
+            </td>
+
+            <td>
+              <% if(t.status == 'dipinjam') { %>
+                <form action="/admin/transactions/return/<%= t.id_peminjaman_fisik %>"
+                      method="POST"
+                      onsubmit="return confirm('Proses pengembalian buku ini?');">
+                  <button class="btn-action success">
+                    <i class="bi bi-check-circle"></i> Kembalikan
+                  </button>
+                </form>
+              <% } else { %>
+                <span class="done">
+                  <i class="bi bi-check-all"></i> Selesai
+                </span>
+                <% if(t.tanggal_kembali) { %>
+                  <div class="done-date">
+                    <%= new Date(t.tanggal_kembali).toLocaleDateString('id-ID') %>
+                  </div>
+                <% } %>
+              <% } %>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+</main>

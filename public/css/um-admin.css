@@ -1,0 +1,60 @@
+@import url("../css/components/navbar.css");
+@import url("../components/font.css");
+@import url("../css/components/main-content.css");
+@import url("../css/components/scrollbar.css");
+
+/* HEADER SECTION */
+.header-section {
+  background: linear-gradient(135deg, #1f3c5b, #2b5876);
+  border-radius: 12px;
+  padding: 24px;
+  color: #fff;
+}
+
+.header-overlay .heading {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.header-overlay .subheading {
+  font-size: 14px;
+  opacity: 0.85;
+  margin-top: 4px;
+}
+
+/* CARD */
+.card {
+  border-radius: 12px;
+  border: none;
+}
+
+/* TABLE */
+.user-table thead th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: #6c757d;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.user-table tbody tr:hover {
+  background-color: #f6f9fc;
+}
+
+/* BUTTONS */
+.btn-outline-primary {
+  --bs-btn-color: #1f3c5b;
+  --bs-btn-border-color: #1f3c5b;
+}
+
+.btn-outline-primary:hover {
+  background-color: #1f3c5b;
+  color: #fff;
+}
+
+.btn-danger {
+  border-radius: 8px;
+  font-weight: 600;
+}

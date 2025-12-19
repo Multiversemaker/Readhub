@@ -1,0 +1,81 @@
+<main id="mainContent" class="content shifted-collapsed p-4">
+
+  <!-- HEADER -->
+  <div class="header-section mb-4">
+    <div class="header-overlay">
+      <h1 class="heading">Laporan & Statistik</h1>
+      <p class="subheading">Ringkasan aktivitas perpustakaan</p>
+    </div>
+  </div>
+
+  <!-- FILTER -->
+  <div class="filter-section mb-4">
+    <form action="/admin/reports/filter" method="POST" class="filter-form">
+      <div class="filter-group">
+        <label>Dari Tanggal</label>
+        <input type="date" name="start_date" value="<%= startDate %>" required>
+      </div>
+
+      <div class="filter-group">
+        <label>Sampai Tanggal</label>
+        <input type="date" name="end_date" value="<%= endDate %>" required>
+      </div>
+
+      <button type="submit" class="btn-filter">Tampilkan</button>
+    </form>
+  </div>
+
+  <!-- STATISTIC CARD -->
+  <div class="stats-section mb-4">
+    <div class="stat-card blue">
+      <span class="label">Total Peminjaman</span>
+      <h2 class="value"><%= summary.total_transaksi %></h2>
+      <span class="desc">Kali transaksi</span>
+    </div>
+
+    <div class="stat-card red">
+      <span class="label">Total Denda Masuk</span>
+      <h2 class="value">
+        Rp <%= summary.total_denda ? Number(summary.total_denda).toLocaleString('id-ID') : 0 %>
+      </h2>
+      <span class="desc">Pendapatan denda</span>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content-section">
+    <div class="content-card">
+      <h3 class="card-title">📚 Top 5 Buku Terpopuler</h3>
+
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Judul Buku</th>
+            <th>Tipe</th>
+            <th>Frekuensi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if(topBooks.length > 0) { %>
+            <% topBooks.forEach((buku, index) => { %>
+              <tr>
+                <td><%= index + 1 %></td>
+                <td class="fw-bold"><%= buku.judul %></td>
+                <td>
+                  <span class="badge"><%= buku.tipe_buku %></span>
+                </td>
+                <td><strong><%= buku.jumlah_pinjam %>x</strong></td>
+              </tr>
+            <% }) %>
+          <% } else { %>
+            <tr>
+              <td colspan="4" class="empty">Belum ada data</td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</main>

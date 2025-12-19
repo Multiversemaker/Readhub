@@ -1,8 +1,7 @@
 const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('peminjaman_fisik', {
+module.exports = function (sequelize, DataTypes) {
+  const PeminjamanFisik = sequelize.define('peminjaman_fisik', {
     idpeminjaman_fisik: {
-      autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
@@ -64,4 +63,25 @@ module.exports = function(sequelize, DataTypes) {
       },
     ]
   });
+  PeminjamanFisik.associate = (models) => {
+    // Relasi ke buku
+    PeminjamanFisik.belongsTo(models.buku, {
+      foreignKey: 'buku_id_buku',
+      as: 'buku'
+    });
+
+    // Relasi ke user
+    PeminjamanFisik.belongsTo(models.user, {
+      foreignKey: 'user_id_user',
+      as: 'user'
+    });
+
+    // Relasi ke denda
+    PeminjamanFisik.hasMany(models.denda, {
+      foreignKey: 'peminjaman_fisik_idpeminjaman_fisik',
+      as: 'denda'
+    });
+  };
+
+  return PeminjamanFisik;
 };

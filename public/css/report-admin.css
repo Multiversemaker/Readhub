@@ -1,0 +1,157 @@
+@import url("../css/components/navbar.css");
+@import url("../components/font.css");
+@import url("../css/components/main-content.css");
+@import url("../css/components/scrollbar.css");
+
+/* MAIN */
+.content {
+  background: #f4f6f9;
+  min-height: 100vh;
+}
+
+/* HEADER */
+.header-section {
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  border-radius: 12px;
+  color: #fff;
+}
+
+.header-overlay {
+  padding: 24px;
+}
+
+.heading {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.subheading {
+  opacity: 0.85;
+  margin-top: 6px;
+}
+
+/* FILTER */
+.filter-section {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.05);
+}
+
+.filter-form {
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+}
+
+.filter-group label {
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #555;
+}
+
+.filter-group input {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.btn-filter {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 10px;
+  background: #e63946;
+  color: #fff;
+  font-weight: 600;
+}
+
+/* STAT */
+.stats-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.stat-card {
+  padding: 20px;
+  border-radius: 14px;
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(0,0,0,.08);
+}
+
+.stat-card.blue {
+  background: linear-gradient(135deg, #3a7bd5, #3a6073);
+}
+
+.stat-card.red {
+  background: linear-gradient(135deg, #e63946, #d62828);
+}
+
+.stat-card .label {
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+.stat-card .value {
+  font-size: 34px;
+  margin: 8px 0;
+  font-weight: 700;
+}
+
+.stat-card .desc {
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+/* CONTENT CARD */
+.content-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.05);
+}
+
+.card-title {
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+/* TABLE */
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.custom-table th,
+.custom-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.custom-table th {
+  background: #f8f9fa;
+  text-align: left;
+}
+
+.badge {
+  background: #e0f2fe;
+  color: #0369a1;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.empty {
+  text-align: center;
+  padding: 20px;
+  color: #999;
+}
