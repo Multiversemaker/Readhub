@@ -1,6 +1,5 @@
 const { peminjaman_fisik, peminjaman_digital, buku, denda } = require("../../../models");
 
-// STORE (Simpan Peminjaman Baru)
 exports.store = async (req, res) => {
     try {
         const { id_pengguna, id_buku } = req.body;
@@ -12,7 +11,6 @@ exports.store = async (req, res) => {
         if (!bookData) return res.send("Buku tidak ditemukan");
 
         const tgl_sekarang = new Date();
-        // Cek tipe buku (Fisik/Digital)
         const isFisik = bookData.tipe && (bookData.tipe.tipe.toLowerCase().includes('cetak') || bookData.tipe.tipe.toLowerCase().includes('fisik'));
 
         if (isFisik) {
@@ -52,7 +50,6 @@ exports.store = async (req, res) => {
     }
 };
 
-// RETURN (Proses Pengembalian)
 exports.editTransaction = async (req, res) => {
     try {
         const id = req.params.id;

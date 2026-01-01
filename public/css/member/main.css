@@ -1,0 +1,46 @@
+@import url("../components/navbar.css");
+@import url("../components/font.css");
+@import url("../components/scrollbar.css");
+@import url("../css/components/main-content.css");
+
+.client-hero {
+  height: 100vh;
+  background: url("/src/w1.jpg") center / cover no-repeat;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.client-hero .header-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(5, 11, 23, 0.9),
+    rgba(5, 11, 23, 0.35)
+  );
+}
+
+.client-hero .header-content {
+  position: relative;
+  z-index: 2;
+  max-width: 720px;
+}
+
+.client-hero .heading {
+  font-size: 3.2rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #ffffff;
+}
+
+.client-hero .heading span {
+  color: #ff2e63;
+}
+
+.client-hero .subtitle {
+  margin-top: 18px;
+  font-size: 1rem;
+  color: #cfd8dc;
+  max-width: 520px;
+}

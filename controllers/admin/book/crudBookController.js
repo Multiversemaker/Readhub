@@ -7,70 +7,91 @@ const { getDropboxAccessToken } = require("../../../utils/dropboxHelper");
 
 exports.createBook = async (req, res) => {
   try {
-    const { judul, penulis, penerbit, tahun_terbit, deskripsi, kategori, tipe, stok, lokasi_rak } = req.body;
+    // 1️⃣ Ambil semua field dari form
+    const {
+      judul, penulis, penerbit,
+      tahun_terbit, deskripsi,
+      kategori, tipe,
+      stok, lokasi_rak
+    } = req.body;
 
+    console.log("===== REQ.BODY =====");
+    console.log(req.body);
+
+    // 2️⃣ Ambil file dari multer (sesuai field name)
     const file = req.files?.file_buku?.[0] || null;
-    const cover = req.files?.cover?.[0] || null;
+    const cover = req.files?.cover_image?.[0] || null;
+
+    console.log("===== REQ.FILES =====");
+    console.log(req.files);
+    console.log("file_buku:", file);
+    console.log("cover_image:", cover);
 
     const isDigital = tipe === "digital";
 
+    // 3️⃣ Validasi wajib
     if (!judul || !kategori || !tipe) {
+      console.log("Validation failed: field wajib belum lengkap");
       req.flash("error", "Field wajib belum lengkap");
       return res.redirect("/admin/books");
     }
 
     if (isDigital && !file) {
+      console.log("Validation failed: buku digital wajib upload file");
       req.flash("error", "Buku digital wajib upload file");
       return res.redirect("/admin/books");
     }
 
     if (!isDigital && (!stok || !lokasi_rak)) {
+      console.log("Validation failed: stok/lokasi rak wajib untuk buku fisik");
       req.flash("error", "Stok dan lokasi rak wajib untuk buku fisik");
       return res.redirect("/admin/books");
     }
+
+    // 4️⃣ Path file lokal & Dropbox
     let filePathLocal = null;
     let filePathDropbox = null;
 
     if (isDigital && file) {
-      filePathLocal = "/Public/uploads/books/" + file.filename;
-    }
+      filePathLocal = "/uploads/books/" + file.filename;
 
-    if (isDigital && file) {
+      // Optional: upload ke Dropbox
       const accessToken = await getDropboxAccessToken();
-      if (!accessToken) throw new Error("Dropbox access token kosong");
+      if (accessToken) {
+        const dbx = new Dropbox({ accessToken, fetch });
+        const fileContent = fs.readFileSync(file.path);
+        filePathDropbox = `/books/${file.filename}`;
 
-      const dbx = new Dropbox({ accessToken, fetch });
-
-      const fileContent = fs.readFileSync(file.path);
-      filePathDropbox = `/books/${file.filename}`;
-
-      await dbx.filesUpload({
-        path: filePathDropbox,
-        contents: fileContent,
-        mode: "overwrite",
-      });
+        await dbx.filesUpload({
+          path: filePathDropbox,
+          contents: fileContent,
+          mode: "overwrite",
+        });
+      } else {
+        console.log("Dropbox token kosong, skip upload Dropbox");
+      }
     }
 
-    await Book.create({
+    // 5️⃣ Cover image path
+    const coverPath = cover ? "/uploads/covers/" + cover.filename : null;
+
+    // 6️⃣ Simpan ke database
+    const newBook = await Book.create({
       judul,
       penulis,
       penerbit,
       tahun_terbit,
       deskripsi,
-
       kategori_idkategori: kategori,
       tipe_idtipe: isDigital ? 2 : 1,
-
       stok_tersedia: isDigital ? null : stok,
       lokasi_rak: isDigital ? null : lokasi_rak,
-
       file_path: filePathLocal,
       file_path_dropbox: filePathDropbox,
-
-      cover_image: cover
-        ? "/Public/uploads/covers/" + cover.filename
-        : null
+      cover_image: coverPath,
     });
+
+    console.log("Book created successfully:", newBook);
 
     req.flash("success", "Buku berhasil ditambahkan");
     res.redirect("/admin/books");
@@ -82,24 +103,44 @@ exports.createBook = async (req, res) => {
   }
 };
 
+
 exports.updateBook = async (req, res) => {
   try {
-    const { judul, penulis, stok_tersedia, kategori, tipe } = req.body;
+    console.log("=== Multer req.files ===");
+    console.log(req.files); // lihat semua file yang di-upload
 
+    const { judul, penulis, penerbit, tahun_terbit, deskripsi, kategori, tipe, stok, lokasi_rak } = req.body;
+
+    const file = req.files?.file_buku?.[0];
+    const cover = req.files?.cover_image?.[0];
+
+    if (file) console.log("File buku terupload:", file.filename);
+    else console.log("File buku tidak ada");
+
+    if (cover) console.log("Cover image terupload:", cover.filename);
+    else console.log("Cover image tidak ada");
+
+    // Update database
     const updatedData = {
       judul,
       penulis,
-      stok_tersedia: parseInt(stok_tersedia) || null,
-      kategori_idkategori: parseInt(kategori) || null,
-      tipe_idtipe: parseInt(tipe) || null,
+      penerbit,
+      tahun_terbit,
+      deskripsi,
+      kategori_idkategori: parseInt(kategori),
+      tipe_idtipe: tipe === "digital" ? 2 : 1,
+      stok_tersedia: tipe === "digital" ? null : parseInt(stok),
+      lokasi_rak: tipe === "digital" ? null : lokasi_rak,
+      file_path: file ? "/Public/uploads/books/" + file.filename : undefined,
+      cover_image: cover ? "/Public/uploads/covers/" + cover.filename : undefined,
     };
 
-    if (req.file) {
-      updatedData.file_path = `/uploads/buku/${req.file.filename}`;
-      updatedData.cover_image = `/uploads/buku/${req.file.filename}`;
-    }
+    // Hapus field undefined supaya tidak menimpa
+    Object.keys(updatedData).forEach(key => updatedData[key] === undefined && delete updatedData[key]);
 
     await Book.update(updatedData, { where: { id_buku: req.params.id } });
+
+    console.log("Update berhasil:", updatedData);
 
     res.redirect("/admin/books");
   } catch (err) {

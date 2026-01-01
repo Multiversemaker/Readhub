@@ -2,38 +2,40 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 
-const uploadDir = path.resolve("Public/uploads/books");
+// Direktori upload
+const uploadDirs = {
+  books: path.join(__dirname, "..", "public", "uploads", "books"),
+  covers: path.join(__dirname, "..", "public", "uploads", "covers")
+};
 
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-}
+// Buat folder jika belum ada
+Object.values(uploadDirs).forEach(dir => {
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+});
 
+// Storage
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, uploadDir),
+  destination: (req, file, cb) => {
+    if (file.fieldname === "cover_image") cb(null, uploadDirs.covers);
+    else cb(null, uploadDirs.books);
+  },
   filename: (req, file, cb) => {
-    const uniqueName =
-      Date.now() + "-" + file.originalname.replace(/\s+/g, "_");
+    const uniqueName = Date.now() + "-" + file.originalname.replace(/\s+/g, "_");
     cb(null, uniqueName);
   },
 });
 
+// Allowed extensions
 const allowedExt = [
-  ".pdf",
-  ".doc",
-  ".docx",
-  ".ppt",
-  ".pptx",
-  ".txt",
-  ".jpg",
-  ".jpeg",
-  ".png",
-  ".webp",
-  ".xlsx",
-  ".xls",
+  ".pdf", ".doc", ".docx", ".ppt", ".pptx", ".txt",
+  ".jpg", ".jpeg", ".png", ".webp", ".xlsx", ".xls"
 ];
 
+// File filter
 const fileFilter = (req, file, cb) => {
   const ext = path.extname(file.originalname).toLowerCase();
+  const mime = file.mimetype;
+  
   if (allowedExt.includes(ext)) {
     cb(null, true);
   } else {
@@ -41,12 +43,11 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
+// Multer upload
 const upload = multer({
   storage,
   fileFilter,
-  limits: {
-    fileSize: 100 * 1024 * 1024
-  },
+  limits: { fileSize: 100 * 1024 * 1024 }, // 100MB
 });
 
 module.exports = upload;

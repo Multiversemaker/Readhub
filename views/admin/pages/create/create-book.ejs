@@ -16,13 +16,7 @@
         <div class="col-md-3">
           <div class="book-cover-preview">
             <img src="/images/default-book.png" id="coverPreview" class="img-fluid rounded shadow-sm" alt="Cover Buku">
-            <input
-              type="file"
-              name="cover"
-              class="form-control mt-3"
-              accept="image/*"
-              onchange="previewImage(event)"
-            />
+            <input type="file" name="cover_image" class="form-control mt-3" accept="image/*" onchange="previewImage(event)" />
           </div>
         </div>
 
@@ -54,7 +48,7 @@
               <label class="form-label">Kategori</label>
               <select name="kategori" class="form-select" required>
                 <% kategoriList.forEach(k => { %>
-                  <option value="<%= k.idkategori %>"><%= k.nama_kategori %></option>
+                <option value="<%= k.idkategori %>"><%= k.nama_kategori %></option>
                 <% }) %>
               </select>
             </div>

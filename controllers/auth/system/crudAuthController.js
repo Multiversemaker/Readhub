@@ -18,23 +18,29 @@ exports.login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, foundUser.password);
     if (!isMatch) {
       req.flash("error", "Password salah!");
-        console.log("Password salah!");
+      console.log("Password salah!");
       return res.redirect("/login");
     }
     const userRole = foundUser.role.role;
     req.session.userId = foundUser.id_user;
     req.session.nama = foundUser.nama;
     req.session.role = userRole;
-
+    console.log("===== LOGIN SUCCESS =====");
+    console.log("SESSION USERID:", req.session.userId);
+    console.log("SESSION NAMA:", req.session.nama);
+    console.log("SESSION ROLE:", req.session.role);
+    console.log("=========================");
 
     req.flash("success", "Login berhasil!");
 
     if (userRole === "admin") {
       return res.redirect("/admin/dashboard");
+    } else if (userRole === "client") {
+      return res.redirect("/member/dashboard");
     } else {
-      return res.redirect("/client/dashboard");
+      req.flash("error", "Role tidak dikenal");
+      return res.redirect("/login");
     }
-
   } catch (err) {
     console.error(err);
     req.flash("error", "Terjadi kesalahan server.");

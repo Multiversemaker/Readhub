@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const { homePage } = require("../../Controllers/admin/dashboardController");
+const { homePage } = require("../../controllers/admin/dashboardController");
 
 router.get("/dashboard", homePage);
 

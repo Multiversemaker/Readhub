@@ -36,7 +36,10 @@
             <td>
               <a href="/admin/books/edit-book/<%= book.id_buku %>" class="text-primary">Edit</a>
               &nbsp;|&nbsp;
-              <a href="/admin/books/delete/<%= book.id_buku %>" class="text-danger">Hapus</a>
+              <form action="/admin/books/<%= book.id_buku %>?_method=DELETE" method="POST" style="display:inline;">
+                <button type="submit" class="text-danger btn btn-link p-0">Hapus</button>
+              </form>
+
 
               <% if(book.tipe?.tipe.toLowerCase() === "digital" || book.type === "application/pdf") { %>
               &nbsp;|&nbsp;

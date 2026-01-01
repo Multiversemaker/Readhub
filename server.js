@@ -47,6 +47,7 @@ app.use((req, res, next) => {
 
 app.use("/", require("./routes/auth"));
 app.use("/admin", require("./routes/adminRoutes"));
+app.use("/member", require("./routes/memberRoutes"));
 
 app.use((req, res) => {
   res.status(404).send("404 Not Found");

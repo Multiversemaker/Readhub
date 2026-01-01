@@ -28,11 +28,17 @@ exports.getEditBook = async (req, res) => {
     });
 
     if (!buku) return res.status(404).send("Buku tidak ditemukan");
+    console.log("Cover image path:", buku.cover_image);
+
+    const kategoriList = await Kategori.findAll();
+    const tipeList = await Tipe.findAll();
 
     res.render("admin/pages/edit/edit-book", {
       layout: "admin/layouts/create-update/crup-layout",
       title: "Edit Buku",
-      buku: buku.toJSON()
+      book: buku.toJSON(),
+      kategoriList,
+      tipeList,
     });
   } catch (err) {
     console.error("Error getEditBook:", err);

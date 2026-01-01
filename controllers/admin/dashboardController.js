@@ -7,7 +7,7 @@ exports.homePage = async (req, res) => {
 
     res.render("admin/pages/dashboard", {
       layout: "admin/layouts/main-layout",
-      title: "wA Admin Readhub",
+      title: "Admin Readhub",
       nama: req.session.nama,
       totalBuku,
       totalAnggota

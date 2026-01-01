@@ -1,7 +1,9 @@
 @import url("../components/font.css");
 @import url("../components/modal.css");
 @import url("../components/menu/navbar.css");
+@import url("../components/menu/navbar-client.css");
 @import url("../components/menu/sidebar.css");
+@import url("../components/menu/footer.css");
 
 .heading{
     font-family: "Lora", serif;

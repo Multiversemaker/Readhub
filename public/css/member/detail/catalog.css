@@ -1,0 +1,98 @@
+@import url("../../components/navbar.css");
+@import url("../../components/font.css");
+@import url("../../components/scrollbar.css");
+@import url("../../components/main-content.css");
+
+/* =========================
+   HERO DETAIL
+========================= */
+.client-hero {
+  height: 360px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.detail-hero {
+  background-position: center top;
+}
+
+.header-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    rgba(5, 15, 35, 0.75),
+    rgba(5, 15, 35, 0.9)
+  );
+}
+
+.header-content {
+  position: relative;
+  z-index: 2;
+  color: #fff;
+}
+
+.heading {
+  font-size: 3rem;
+  font-weight: 600;
+}
+
+/* =========================
+   PAGE CONTENT
+========================= */
+.page-content {
+  flex: 1;
+  padding-top: 60px;
+  padding-bottom: 120px; /* jarak aman ke footer */
+}
+
+/* =========================
+   COVER IMAGE
+========================= */
+.page-content img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+/* =========================
+   ACTION BUTTON
+========================= */
+.page-content .btn-dark {
+  background: #0b1d3a;
+  border: none;
+}
+
+.page-content .btn-dark:hover {
+  background: #08162c;
+}
+
+/* =========================
+   TABLE INFO
+========================= */
+.table {
+  margin-top: 16px;
+}
+
+.table th {
+  width: 35%;
+  background: #f8f9fa;
+  font-weight: 600;
+}
+
+.table td {
+  background: #ffffff;
+}
+
+/* =========================
+   DESCRIPTION
+========================= */
+.page-content h3 {
+  margin-bottom: 16px;
+}
+
+.page-content p {
+  line-height: 1.7;
+  color: #495057;
+}

@@ -1,0 +1,70 @@
+<main id="mainContent" class="content">
+
+  <!-- HERO DETAIL -->
+  <section class="header-section client-hero detail-hero" style="background-image: url('<%= book.cover %>')">
+    <div class="header-overlay"></div>
+
+    <div class="header-content container text-center">
+      <h1 class="heading"><%= book.title %></h1>
+    </div>
+  </section>
+
+  <!-- CONTENT -->
+  <section class="page-content container">
+
+    <div class="row g-5">
+
+      <!-- COVER -->
+      <div class="col-md-4">
+        <img src="<%= book.cover %>" class="img-fluid rounded shadow">
+
+        <div class="d-grid gap-2 mt-4">
+          <button class="btn btn-dark">Pinjam</button>
+          <a href="/member/catalog" class="btn btn-outline-dark">Kembali</a>
+        </div>
+      </div>
+
+      <!-- INFO -->
+      <div class="col-md-8">
+        <h3 class="mb-3">Informasi Buku</h3>
+
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <th>Nama Buku</th>
+              <td><%= book.title %></td>
+            </tr>
+            <tr>
+              <th>Kategori</th>
+              <td><%= book.category %></td>
+            </tr>
+            <tr>
+              <th>Jenis Buku</th>
+              <td><%= book.type %></td>
+            </tr>
+            <tr>
+              <th>Penerbit</th>
+              <td><%= book.publisher %></td>
+            </tr>
+            <tr>
+              <th>Penulis</th>
+              <td><%= book.author %></td>
+            </tr>
+            <tr>
+              <th>Tahun</th>
+              <td><%= book.year %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <!-- DESKRIPSI -->
+    <div class="mt-5">
+      <h3>Deskripsi</h3>
+      <p><%= book.description %></p>
+    </div>
+
+  </section>
+</main>
