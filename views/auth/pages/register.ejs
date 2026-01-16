@@ -1,0 +1,59 @@
+<div class="container-fluid register-page">
+  <div class="row justify-content-center align-items-center min-vh-100">
+    <div class="col-12 col-lg-10 d-flex justify-content-center">
+
+      <div class="form-container-register">
+
+        <h2 class="heading">Register</h2>
+        <p class="text">Silahkan Untuk Mendaftar</p>
+
+        <% if (error && error.length > 0) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <%= error %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <% } %>
+
+        <form method="POST" action="/register">
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <input type="text" class="form-control" name="firstName" placeholder="First Name" required>
+            </div>
+            <div class="col-md-6">
+              <input type="text" class="form-control" name="lastName" placeholder="Last Name" required>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <input type="email" class="form-control" name="email" placeholder="Email" required>
+            </div>
+            <div class="col-md-6">
+              <input type="date" class="form-control" name="tanggalLahir" required>
+            </div>
+          </div>
+
+
+
+          <div class="mb-3">
+            <input type="text" class="form-control" name="alamat" placeholder="Alamat" required>
+          </div>
+
+          <div class="input-group mb-4">
+            <input type="password" class="form-control" name="password" placeholder="Password" required>
+          </div>
+
+          <button type="submit" class="btn register-btn w-100">
+            Submit
+          </button>
+        </form>
+
+        <p class="info text-center mt-3">
+          Jika Sudah Terdaftar, <a href="/login">Silahkan Login</a>
+        </p>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -48,7 +48,7 @@
               <label class="form-label">Kategori</label>
               <select name="kategori" class="form-select" required>
                 <% kategoriList.forEach(k => { %>
-                  <option value="<%= k.idkategori %>" <%= book.kategori_idkategori === k.idkategori ? 'selected' : '' %>><%= k.nama_kategori %></option>
+                <option value="<%= k.idkategori %>" <%= book.kategori_idkategori === k.idkategori ? 'selected' : '' %>><%= k.nama_kategori %></option>
                 <% }) %>
               </select>
             </div>
@@ -75,7 +75,7 @@
             <!-- DIGITAL -->
             <div class="col-md-6" id="digitalFileGroup" <%= book.tipe_idtipe === 1 ? 'style="display:none;"' : '' %>>
               <label class="form-label">File Buku (PDF)</label>
-              <input type="file" name="file_path" class="form-control" accept=".pdf">
+              <input type="file" name="file_buku" class="form-control" accept=".pdf">
             </div>
 
             <div class="col-md-12">

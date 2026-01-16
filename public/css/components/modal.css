@@ -1,0 +1,24 @@
+@import url("../components/font.css");
+
+.modal-header {
+  background: #0c2c5f;
+  color: white;
+}
+
+.modal-header .modal-title {
+  font-family: "Playfair Display", serif;
+}
+
+.modal-header .modal-body {
+  font-family: "Inter", sans-serif;
+}
+
+.btn {
+  background: #0c2c5f;
+  color: white;
+  font-family: "Work Sans", sans-serif;
+}
+.btn:hover {
+  background: #ffffff;
+  color: #0c2c5f;
+}

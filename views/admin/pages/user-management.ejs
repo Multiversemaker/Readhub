@@ -8,7 +8,7 @@
         <p class="subheading">Kelola data pengguna sistem</p>
       </div>
 
-      <a href="/admin/user-managements/add" class="btn btn-danger">
+      <a href="/admin/user-managements/add" class="btn">
         + Tambah User Baru
       </a>
     </div>
@@ -51,14 +51,14 @@
             <td class="text-center">
               <a
                 href="/admin/user-managements/edit/<%= u.id_user %>"
-                class="btn btn-sm btn-outline-primary"
+                class="btn btn-sm"
               >
                 Edit
               </a>
               <a
                 href="/admin/user-managements/delete/<%= u.id_user %>"
                 onclick="return confirm('Yakin hapus user ini?')"
-                class="btn btn-sm btn-outline-danger ms-1"
+                class="btn btn-sm ms-1"
               >
                 Hapus
               </a>

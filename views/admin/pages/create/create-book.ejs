@@ -47,10 +47,17 @@
             <div class="col-md-6">
               <label class="form-label">Kategori</label>
               <select name="kategori" class="form-select" required>
+                <option value="" disabled selected>
+                  -- Pilih Kategori --
+                </option>
+
                 <% kategoriList.forEach(k => { %>
-                <option value="<%= k.idkategori %>"><%= k.nama_kategori %></option>
+                <option value="<%= k.idkategori %>">
+                  <%= k.kategori %>
+                </option>
                 <% }) %>
               </select>
+
             </div>
 
             <div class="col-md-6">
@@ -89,8 +96,8 @@
 
       <!-- ACTION -->
       <div class="d-flex justify-content-end gap-2 mt-4">
-        <a href="/admin/books" class="btn btn-secondary">Batal</a>
-        <button type="submit" class="btn btn-danger">Simpan Buku</button>
+        <a href="/admin/books" class="btn">Batal</a>
+        <button type="submit" class="btn">Simpan Buku</button>
       </div>
 
     </form>

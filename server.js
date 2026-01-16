@@ -7,6 +7,7 @@ const flash = require("connect-flash");
 const path = require("path");
 const cors = require('cors');
 require('dotenv').config();
+const userInjector = require("./Middlewares/userInjector");
 
 const app = express();
 const port = 5000;
@@ -37,14 +38,14 @@ db.sequelize.authenticate()
 
 app.use(flash());
 app.use((req, res, next) => {
-  res.locals.currentuser = req.session.user || null;
+  res.locals.currentUser = req.session.user || null;
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
   res.locals.warning = req.flash("warning");
   res.locals.info = req.flash("info");
   next();
 });
-
+app.use(userInjector);
 app.use("/", require("./routes/auth"));
 app.use("/admin", require("./routes/adminRoutes"));
 app.use("/member", require("./routes/memberRoutes"));

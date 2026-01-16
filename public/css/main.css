@@ -3,6 +3,14 @@
 @import url("../css/components/main-content.css");
 @import url("../css/components/scrollbar.css");
 
+.header-overlay {
+  padding: 24px;
+}
+
+.heading {
+  margin: 0;
+}
+
 .stats-section {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));

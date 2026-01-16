@@ -9,7 +9,7 @@
   <div class="action-section d-flex justify-content-between align-items-center mt-4">
     <input type="text" class="form-control search-input" placeholder="Cari buku berdasarkan judul..." style="width: 300px;" />
 
-    <a href="/admin/books/add-book" class="btn btn-primary btn-add-book">
+    <a href="/admin/books/add-book" class="btn">
       + Tambah Buku Baru
     </a>
   </div>
@@ -34,22 +34,44 @@
             <td><%= book.tipe?.tipe %></td>
             <td><%= book.stok_tersedia || "N/A" %></td>
             <td>
-              <a href="/admin/books/edit-book/<%= book.id_buku %>" class="text-primary">Edit</a>
-              &nbsp;|&nbsp;
-              <form action="/admin/books/<%= book.id_buku %>?_method=DELETE" method="POST" style="display:inline;">
-                <button type="submit" class="text-danger btn btn-link p-0">Hapus</button>
-              </form>
+              <div class="d-flex flex-wrap gap-2">
 
+                <!-- Edit -->
+                <a href="/admin/books/edit-book/<%= book.id_buku %>" class="btn btn-sm action-btn">
+                  <i class="bi bi-pencil-square"></i>
+                </a>
 
-              <% if(book.tipe?.tipe.toLowerCase() === "digital" || book.type === "application/pdf") { %>
-              &nbsp;|&nbsp;
-              <a href="/admin/books/view/<%= book.id_buku %>" class="text-success">Preview PDF</a>
-              &nbsp;|&nbsp;
-              <a href="/admin/books/download/<%= book.id_buku %>" class="text-primary">Download PDF</a>
-              &nbsp;|&nbsp;
-              <a href="/admin/books/open-local/<%= book.id_buku %>" class="text-warning">Open Local PDF</a>
-              <% } %>
+                <!-- Hapus -->
+                <form action="/admin/books/<%= book.id_buku %>?_method=DELETE" method="POST" onsubmit="return confirm('Yakin ingin menghapus buku ini?')">
+                  <button type="submit" class="btn btn-sm action-btn">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </form>
+
+                <% if (
+      book.tipe?.tipe?.toLowerCase() === "digital" ||
+      book.type === "application/pdf"
+    ) { %>
+
+                <!-- Preview -->
+                <a href="/admin/books/view/<%= book.id_buku %>" class="btn btn-sm action-btn">
+                  <i class="bi bi-eye"></i>
+                </a>
+
+                <!-- Download -->
+                <a href="/admin/books/download/<%= book.id_buku %>" class="btn btn-sm action-btn">
+                  <i class="bi bi-download"></i>
+                </a>
+
+                <!-- Open Local -->
+                <a href="/admin/books/open-local/<%= book.id_buku %>" class="btn btn-sm action-btn">
+                  <i class="bi bi-box-arrow-up-right"></i>
+                </a>
+
+                <% } %>
+              </div>
             </td>
+
           </tr>
           <% }) %>
         </tbody>

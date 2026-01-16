@@ -1,7 +1,7 @@
 @import url("../components/navbar.css");
 @import url("../components/font.css");
 @import url("../components/scrollbar.css");
-@import url("../components/main-content.css");
+@import url("../member/main-content.css");
 
 .page-content {
   flex: 1;
@@ -9,32 +9,40 @@
   padding-bottom: 100px; /* INI YANG BIKIN NAPAS KE FOOTER */
 }
 
-
-/* HERO */
-.hero-section {
-  height: 360px;
-  background: center / cover no-repeat;
-  position: relative;
+.client-hero {
+  height: 50vh;
+  background: url("/src/w1.jpg") center / cover no-repeat;
   display: flex;
   align-items: center;
-  justify-content: center;
-}
-
-.detail-hero {
-  background-position: center top;
-}
-
-.hero-section h1 {
-  color: #fff;
   position: relative;
-  z-index: 2;
-  font-size: 3rem;
 }
 
-.overlay {
+.client-hero .header-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(5, 15, 35, 0.85);
+  background: linear-gradient(
+    to right,
+    rgba(5, 11, 23, 0.9),
+    rgba(5, 11, 23, 0.35)
+  );
+}
+
+.client-hero .header-content {
+  position: relative;
+  z-index: 2;
+  max-width: 720px;
+}
+
+.client-hero .heading {
+  font-size: 3.2rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #ffffff;
+  text-align: center;
+}
+
+.client-hero .heading span {
+  color: #ff2e63;
 }
 
 /* BOOK CARD */
@@ -46,7 +54,7 @@
 
 .book-card:hover img {
   transform: translateY(-6px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
 }
 
 /* NO COVER */

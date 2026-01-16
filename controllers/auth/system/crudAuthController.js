@@ -18,29 +18,24 @@ exports.login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, foundUser.password);
     if (!isMatch) {
       req.flash("error", "Password salah!");
-      console.log("Password salah!");
       return res.redirect("/login");
     }
-    const userRole = foundUser.role.role;
-    req.session.userId = foundUser.id_user;
-    req.session.nama = foundUser.nama;
-    req.session.role = userRole;
-    console.log("===== LOGIN SUCCESS =====");
-    console.log("SESSION USERID:", req.session.userId);
-    console.log("SESSION NAMA:", req.session.nama);
-    console.log("SESSION ROLE:", req.session.role);
-    console.log("=========================");
+
+    // 🔥 SIMPAN SESSION DENGAN BENAR
+    req.session.user = {
+      id_user: foundUser.id_user,
+      nama: foundUser.nama,
+      role: foundUser.role.role
+    };
 
     req.flash("success", "Login berhasil!");
 
-    if (userRole === "admin") {
+    if (foundUser.role.role === "admin") {
       return res.redirect("/admin/dashboard");
-    } else if (userRole === "client") {
-      return res.redirect("/member/dashboard");
     } else {
-      req.flash("error", "Role tidak dikenal");
-      return res.redirect("/login");
+      return res.redirect("/member/dashboard");
     }
+
   } catch (err) {
     console.error(err);
     req.flash("error", "Terjadi kesalahan server.");
@@ -48,24 +43,36 @@ exports.login = async (req, res) => {
   }
 };
 
+
 exports.register = async (req, res) => {
-  const { nama, email, password, role_idrole } = req.body;
+  const {
+    firstName,
+    lastName,
+    email,
+    password,
+    tanggalLahir,
+    alamat
+  } = req.body;
 
   try {
+    // cek email
     const existingUser = await user.findOne({ where: { email } });
-
     if (existingUser) {
-      req.flash("warning", "Email sudah digunakan!");
+      req.flash("error", "Email sudah digunakan!");
       return res.redirect("/register");
     }
 
+    // hash password
     const hashedPassword = await bcrypt.hash(password, 12);
 
+    // simpan user
     await user.create({
-      nama,
+      nama: `${firstName} ${lastName}`, // ✅ gabung nama
       email,
       password: hashedPassword,
-      role_idrole,
+      tanggal_lahir: tanggalLahir,
+      alamat,
+      role_idrole: 2,                   // ✅ MEMBER
       tanggal_daftar: new Date(),
     });
 

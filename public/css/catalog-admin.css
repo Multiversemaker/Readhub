@@ -3,24 +3,14 @@
 @import url("../css/components/main-content.css");
 @import url("../css/components/scrollbar.css");
 
-/* Header Section */
-.header-section {
-  margin-top: 10px;
-}
-
 .header-overlay {
-  background: #0C2C5F;
-  padding: 25px;
-  border-radius: 10px;
+  padding: 24px;
 }
 
-.header-overlay .heading {
-  color: white;
+.heading {
   margin: 0;
-  font-size: 28px;
 }
 
-/* Search */
 .search-input {
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -28,18 +18,28 @@
 }
 
 /* Button Tambah Buku */
-.btn-add-book {
-  background: #0C2C5F;
+.btn {
+  background: #0c2c5f;
   color: #fff;
   padding: 10px 16px;
   border-radius: 8px;
-  text-decoration: none;
 }
 
-.btn-add-book:hover {
+.action-btn {
+  width: 40px;
+  height: 40px;
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+
+.btn:hover {
   background: #ffffff;
-  color: #0C2C5F;
-  border: 1px solid #0C2C5F;
+  color: #0c2c5f;
+  border: 1px solid #0c2c5f;
 }
 
 /* Table */

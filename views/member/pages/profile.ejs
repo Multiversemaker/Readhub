@@ -1,0 +1,89 @@
+<!-- HERO -->
+<section class="profile-hero">
+  <h1>Profile</h1>
+</section>
+
+<!-- PROFILE CARD -->
+<section class="profile-section container">
+  <div class="profile-card">
+
+    <!-- LEFT -->
+    <div class="profile-left">
+      <img src="<%= user.profileImage || '/images/default-avatar.jpg' %>" class="profile-avatar" />
+      <button class="btn btn-dark">Edit Profile</button>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="profile-right">
+      <h2>Hi, <%= user.firstName %>!</h2>
+
+      <table class="profile-table">
+        <tr>
+          <td>Full Name</td>
+          <td><%= user.fullName %></td>
+        </tr>
+        <tr>
+          <td>Gender</td>
+          <td><%= user.gender || '-' %></td>
+        </tr>
+        <tr>
+          <td>Birth Date</td>
+          <td><%= user.birthDate %></td>
+        </tr>
+        <tr>
+          <td>Email</td>
+          <td><%= user.email %></td>
+        </tr>
+        <tr>
+          <td>Phone</td>
+          <td><%= user.phone || '-' %></td>
+        </tr>
+        <tr>
+          <td>Address</td>
+          <td><%= user.address %></td>
+        </tr>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<!-- ACTIVITY -->
+<section class="activity-section container">
+  <h2>Activity</h2>
+
+  <table class="activity-table">
+    <thead>
+      <tr>
+        <th>Judul Buku</th>
+        <th>Tanggal Pinjam</th>
+        <th>Batas Pengembalian</th>
+        <th>Status</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (activities.length) { %>
+      <% activities.forEach(a => { %>
+      <tr>
+        <td><%= a.bookTitle %></td>
+        <td><%= a.borrowDate %></td>
+        <td><%= a.returnDate %></td>
+        <td><%= a.status %></td>
+        <td>
+          <% if (a.canReturn) { %>
+          <button class="btn btn-dark btn-sm">Kembalikan</button>
+          <% } else { %>
+          -
+          <% } %>
+        </td>
+      </tr>
+      <% }) %>
+      <% } else { %>
+      <tr>
+        <td colspan="5" class="empty">Tidak ada aktivitas</td>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+</section>

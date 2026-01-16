@@ -3,25 +3,6 @@
 @import url("../css/components/main-content.css");
 @import url("../css/components/scrollbar.css");
 
-/* HEADER SECTION */
-.header-section {
-  background: linear-gradient(135deg, #1f3c5b, #2b5876);
-  border-radius: 12px;
-  padding: 24px;
-  color: #fff;
-}
-
-.header-overlay .heading {
-  font-size: 28px;
-  font-weight: 700;
-  margin: 0;
-}
-
-.header-overlay .subheading {
-  font-size: 14px;
-  opacity: 0.85;
-  margin-top: 4px;
-}
 
 /* CARD */
 .card {

@@ -1,0 +1,18 @@
+@import url("../components/navbar.css");
+@import url("../components/font.css");
+@import url("../components/main-content.css");
+@import url("../components/scrollbar.css");
+
+.btn {
+  background: #0c2c5f;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: #ffffff;
+  color: #0c2c5f;
+  border: 1px solid #0c2c5f;
+}

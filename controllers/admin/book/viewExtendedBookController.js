@@ -32,29 +32,34 @@ exports.downloadBook = async (req, res) => {
   }
 };
 
-
 exports.viewBook = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const book = await Buku.findByPk(id, {
-      include: [{ model: Tipe, as: "tipe_idtipe_tipe" }]
-    });
+    const book = await Buku.findByPk(id);
 
-    if (!book) return res.status(404).send("Buku tidak ditemukan");
-    if (book.tipe?.tipe.toLowerCase() === "digital") 
+    if (!book) {
+      return res.status(404).send("Buku tidak ditemukan");
+    }
+
+    // Pastikan buku digital
+    if (book.tipe_idtipe !== 2) {
       return res.status(400).send("Buku bukan tipe digital");
-    if (!book.file_path) return res.status(404).send("File PDF tidak tersedia");
+    }
 
-    const pdfUrl = `/uploads/books/${path.basename(book.file_path)}`;
+    if (!book.file_path) {
+      return res.status(404).send("File PDF tidak tersedia");
+    }
 
-    // Render halaman PDF.js
-    res.render("admin/pages/view-pdf-buku", {
+    // ⚠️ file_path HARUS: /uploads/books/xxx.pdf
+    res.render("admin/pages/detail/view-pdf-buku", {
       title: book.judul,
-      pdfUrl
+      layout: "admin/layouts/catalog/book-detail-layout",
+      pdfUrl: book.file_path
     });
+
   } catch (err) {
-    console.error(err);
+    console.error("viewBook error:", err);
     res.status(500).send("Terjadi kesalahan server");
   }
 };

@@ -1,0 +1,101 @@
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+.register-page {
+  min-height: 100vh;
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+    url("/images/library-bg.jpg") center/cover no-repeat;
+}
+
+.form-container-register {
+  width: 100%;
+  max-width: 1500px; /* 🔥 ini kunci lebar seperti foto */
+  background: #1f3a5f;
+  padding: 50px 40px;
+  border-radius: 22px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+}
+
+/* TEXT */
+.heading {
+  font-size: 36px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.text {
+  text-align: center;
+  font-size: 15px;
+  color: #d1d5db;
+  margin-bottom: 30px;
+}
+
+/* FORM */
+.form-control,
+.form-select {
+  height: 54px;
+  border-radius: 12px;
+  border: none;
+  font-size: 14px;
+  padding-left: 16px;
+}
+
+.form-control:focus,
+.form-select:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+/* PASSWORD */
+.toggle-password {
+  background: #ffffff;
+  border: none;
+}
+
+.toggle-password i {
+  color: #1f3a5f;
+}
+
+/* BUTTON */
+.register-btn {
+  height: 54px;
+  background: #0b1f3b;
+  color: #ffffff;
+  border-radius: 12px;
+  font-size: 16px;
+  border: none;
+  transition: 0.3s;
+}
+
+.register-btn:hover {
+  background: #ffffff;
+  color: #0b1f3b;
+}
+
+/* INFO */
+.info {
+  font-size: 14px;
+  color: #d1d5db;
+}
+
+.info a {
+  color: #ffffff;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.info a:hover {
+  text-decoration: underline;
+}
+
+/* RESPONSIVE */
+@media (max-width: 480px) {
+  .form-container {
+    padding: 35px 25px;
+  }
+
+  .heading {
+    font-size: 28px;
+  }
+}
