@@ -1,30 +1,30 @@
 const { peminjaman_fisik, peminjaman_digital, buku, denda } = require("../../../models");
 
+
 exports.store = async (req, res) => {
     try {
         const { id_pengguna, id_buku } = req.body;
-        
-        const bookData = await buku.findByPk(id_buku, {
-            include: ['tipe'] 
-        });
+        const bookData = await buku.findByPk(id_buku, { include: ['tipe'] });
 
         if (!bookData) return res.send("Buku tidak ditemukan");
 
         const tgl_sekarang = new Date();
+       
         const isFisik = bookData.tipe && (bookData.tipe.tipe.toLowerCase().includes('cetak') || bookData.tipe.tipe.toLowerCase().includes('fisik'));
 
         if (isFisik) {
             if (bookData.stok_tersedia < 1) return res.send("Stok Habis!");
-
+            
             const jatuh_tempo = new Date();
             jatuh_tempo.setDate(jatuh_tempo.getDate() + 7);
 
+           
             await peminjaman_fisik.create({
                 user_id_user: id_pengguna,
                 buku_id_buku: id_buku,
                 tanggal_pinjam: tgl_sekarang,
                 tanggal_jatuh_tempo: jatuh_tempo,
-                status: 'dipinjam'
+                status: 'dipinjam' 
             });
 
             await bookData.decrement('stok_tersedia', { by: 1 });
@@ -41,21 +41,20 @@ exports.store = async (req, res) => {
                 status: 'aktif'
             });
         }
-
         res.redirect('/admin/transactions');
-
     } catch (err) {
         console.log(err);
         res.send("Gagal menyimpan transaksi.");
     }
 };
 
+
 exports.editTransaction = async (req, res) => {
     try {
         const id = req.params.id;
         const tanggal_kembali = new Date();
-
         const loan = await peminjaman_fisik.findByPk(id);
+        
         if (!loan) return res.send("Transaksi tidak ditemukan");
 
         const jatuh_tempo = new Date(loan.tanggal_jatuh_tempo);
@@ -68,6 +67,7 @@ exports.editTransaction = async (req, res) => {
         const bookToUpdate = await buku.findByPk(loan.buku_id_buku);
         await bookToUpdate.increment('stok_tersedia', { by: 1 });
 
+        // Hitung Denda
         if (tanggal_kembali > jatuh_tempo) {
             const diffTime = Math.abs(tanggal_kembali - jatuh_tempo);
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
@@ -79,11 +79,49 @@ exports.editTransaction = async (req, res) => {
                 status_pembayaran: 'belum_lunas'
             });
         }
-
         res.redirect('/admin/transactions');
-
     } catch (err) {
         console.log(err);
         res.redirect('/admin/transactions');
+    }
+};
+
+
+exports.approveTransaction = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const loan = await peminjaman_fisik.findByPk(id);
+
+        if (!loan) return res.status(404).send("Data tidak ditemukan");
+
+       
+        await loan.update({
+            status: 'dipinjam'
+        });
+
+        res.redirect('/admin/transactions');
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Gagal menyetujui transaksi");
+    }
+};
+
+exports.updateDueDate = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { tgl_baru } = req.body; 
+
+      
+        await peminjaman_fisik.update({
+            tanggal_jatuh_tempo: tgl_baru
+        }, {
+            where: { idpeminjaman_fisik: id }
+        });
+
+      
+        res.redirect('/admin/transactions');
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Gagal mengupdate tanggal jatuh tempo.");
     }
 };
