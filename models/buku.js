@@ -35,6 +35,10 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.TEXT,
       allowNull: true
     },
+    penerbit: {
+      type: DataTypes.STRING(100),
+      allowNull: true
+    },
     kategori_idkategori: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -81,14 +85,24 @@ module.exports = function (sequelize, DataTypes) {
     ]
   });
   Buku.associate = (models) => {
-    Buku.belongsTo(models.kategori, {
-      foreignKey: "kategori_idkategori",
-      as: "kategori"
+    Buku.hasMany(models.peminjaman_fisik, {
+      foreignKey: "buku_id_buku",
+      as: "peminjamanFisik"
+    });
+
+    Buku.hasMany(models.peminjaman_digital, {
+      foreignKey: "buku_id_buku",
+      as: "peminjamanDigital"
     });
 
     Buku.belongsTo(models.tipe, {
       foreignKey: "tipe_idtipe",
       as: "tipe"
+    });
+
+    Buku.belongsTo(models.kategori, {
+      foreignKey: "kategori_idkategori",
+      as: "kategori"
     });
   };
   return Buku;

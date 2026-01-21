@@ -1,23 +1,28 @@
 <main id="mainContent" class="content shifted-collapsed p-4">
 
-  <!-- HEADER -->
-  <div class="header-section">
+  <div class="header-section mb-4">
     <div class="header-overlay">
       <h1 class="heading">Tambah Buku</h1>
     </div>
   </div>
 
-  <!-- FORM -->
   <div class="card p-4 shadow-sm">
     <form action="/admin/books" method="POST" enctype="multipart/form-data">
 
       <div class="row">
         <!-- COVER -->
         <div class="col-md-3">
-          <div class="book-cover-preview">
-            <img src="/images/default-book.png" id="coverPreview" class="img-fluid rounded shadow-sm" alt="Cover Buku">
-            <input type="file" name="cover_image" class="form-control mt-3" accept="image/*" onchange="previewImage(event)" />
-          </div>
+          <img
+            src="/images/default-book.png"
+            class="img-fluid rounded shadow-sm mb-3"
+            alt="Cover Buku"
+          >
+          <input
+            type="file"
+            name="cover_image"
+            class="form-control"
+            accept="image/*"
+          >
         </div>
 
         <!-- INPUT -->
@@ -41,23 +46,17 @@
 
             <div class="col-md-6">
               <label class="form-label">Tahun Terbit</label>
-              <input type="number" name="tahun_terbit" class="form-control" min="1900" max="2100">
+              <input type="number" name="tahun_terbit" class="form-control">
             </div>
 
             <div class="col-md-6">
               <label class="form-label">Kategori</label>
               <select name="kategori" class="form-select" required>
-                <option value="" disabled selected>
-                  -- Pilih Kategori --
-                </option>
-
+                <option value="" disabled selected>-- Pilih Kategori --</option>
                 <% kategoriList.forEach(k => { %>
-                <option value="<%= k.idkategori %>">
-                  <%= k.kategori %>
-                </option>
+                  <option value="<%= k.idkategori %>"><%= k.kategori %></option>
                 <% }) %>
               </select>
-
             </div>
 
             <div class="col-md-6">
@@ -68,18 +67,27 @@
               </select>
             </div>
 
-            <!-- FISIK -->
-            <div class="col-md-6" id="stokGroup">
-              <label class="form-label">Stok</label>
-              <input type="number" name="stok" class="form-control">
+            <!-- STOK (WAJIB, SATU SAJA) -->
+            <div class="col-md-6">
+              <label class="form-label">
+                Stok <small class="text-muted">(fisik = jumlah, digital = kuota)</small>
+              </label>
+              <input
+                type="number"
+                name="stok"
+                class="form-control"
+                min="1"
+                required
+              >
             </div>
 
+            <!-- LOKASI RAK (FISIK) -->
             <div class="col-md-6" id="rakGroup">
               <label class="form-label">Lokasi Rak</label>
               <input type="text" name="lokasi_rak" class="form-control">
             </div>
 
-            <!-- DIGITAL -->
+            <!-- FILE DIGITAL -->
             <div class="col-md-6 d-none" id="digitalFileGroup">
               <label class="form-label">File Buku (PDF)</label>
               <input type="file" name="file_buku" class="form-control" accept=".pdf">
@@ -94,7 +102,6 @@
         </div>
       </div>
 
-      <!-- ACTION -->
       <div class="d-flex justify-content-end gap-2 mt-4">
         <a href="/admin/books" class="btn">Batal</a>
         <button type="submit" class="btn">Simpan Buku</button>

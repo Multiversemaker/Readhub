@@ -22,10 +22,8 @@
 .header-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    rgba(5, 15, 35, 0.75),
-    rgba(5, 15, 35, 0.9)
-  );
+  background: linear-gradient(rgba(5, 15, 35, 0.75),
+      rgba(5, 15, 35, 0.9));
 }
 
 .header-content {
@@ -45,27 +43,30 @@
 .page-content {
   flex: 1;
   padding-top: 60px;
-  padding-bottom: 120px; /* jarak aman ke footer */
+  padding-bottom: 120px;
+  /* jarak aman ke footer */
 }
 
 /* =========================
    COVER IMAGE
 ========================= */
 .page-content img {
-  width: 100%;
+  width: 70%;
   border-radius: 10px;
 }
 
-/* =========================
-   ACTION BUTTON
-========================= */
+
 .page-content .btn-dark {
-  background: #0b1d3a;
-  border: none;
+  background: #0c2c5f;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 8px;
 }
 
 .page-content .btn-dark:hover {
-  background: #08162c;
+  background: #ffffff;
+  color: #0c2c5f;
+  border: 1px solid #0c2c5f;
 }
 
 /* =========================

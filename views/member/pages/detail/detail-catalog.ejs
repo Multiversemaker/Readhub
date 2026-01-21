@@ -19,7 +19,12 @@
         <img src="<%= book.cover %>" class="img-fluid rounded shadow">
 
         <div class="d-grid gap-2 mt-4">
-          <button class="btn btn-dark">Pinjam</button>
+          <form action="/member/circulation/<%= book.id %>" method="POST">
+            <button type="submit" class="btn btn-dark">
+              Pinjam
+            </button>
+          </form>
+
           <a href="/member/catalog" class="btn btn-outline-dark">Kembali</a>
         </div>
       </div>

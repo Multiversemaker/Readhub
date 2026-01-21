@@ -64,19 +64,15 @@ module.exports = function (sequelize, DataTypes) {
     ]
   });
   PeminjamanFisik.associate = (models) => {
-    // Relasi ke buku
     PeminjamanFisik.belongsTo(models.buku, {
       foreignKey: 'buku_id_buku',
       as: 'buku'
     });
 
-    // Relasi ke user
     PeminjamanFisik.belongsTo(models.user, {
       foreignKey: 'user_id_user',
       as: 'user'
     });
-
-    // Relasi ke denda
     PeminjamanFisik.hasMany(models.denda, {
       foreignKey: 'peminjaman_fisik_idpeminjaman_fisik',
       as: 'denda'

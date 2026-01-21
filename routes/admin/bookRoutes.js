@@ -3,9 +3,14 @@ const router = express.Router();
 const upload = require("../../Middlewares/upload");
 const bookController = require("../../controllers/admin/bookController");
 
+
+
 router.get("/books", bookController.getAllBooksadmin);
 router.get("/books/add-book", bookController.getCreateBook);
 router.get("/books/edit-book/:id", bookController.getEditBook);
+router.get("/books/download/:id", bookController.downloadBook);
+router.get("/books/view/:id", bookController.viewBook);
+router.get("/books/open-local/:id", bookController.openBookLocal);
 
 // CREATE BOOK
 router.post("/books", upload.fields([
@@ -20,8 +25,5 @@ router.put("/books/:id", upload.fields([
 ]), bookController.updateBook);
 
 router.delete("/books/:id", bookController.deleteBook);
-router.get("/books/download/:id", bookController.downloadBook);
-router.get("/books/view/:id", bookController.viewBook);
-router.get("/books/open-local/:id", bookController.openBookLocal);
 
 module.exports = router;

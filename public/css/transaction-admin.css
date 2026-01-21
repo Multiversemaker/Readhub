@@ -1,14 +1,7 @@
-@import url("../css/components/navbar.css");
-@import url("../components/font.css");
-@import url("../css/components/main-content.css");
-@import url("../css/components/scrollbar.css");
-
-/* HEADER */
-.header-section {
-  background: linear-gradient(135deg, #1e3c72, #2a5298);
-  border-radius: 14px;
-  color: white;
-}
+@import url("./components/navbar.css");
+@import url("./components/font.css");
+@import url("./components/main-content.css");
+@import url("./components/scrollbar.css");
 
 .header-overlay {
   padding: 24px;
@@ -16,8 +9,6 @@
 
 .heading {
   margin: 0;
-  font-size: 28px;
-  font-weight: 700;
 }
 
 .subheading {
@@ -37,18 +28,17 @@
   font-weight: 700;
 }
 
-.btn-primary-custom {
-  background: #2563eb;
-  color: white;
-  padding: 10px 16px;
-  border-radius: 10px;
-  font-weight: 600;
-  text-decoration: none;
+.btn{
+  background: #0c2c5f;
+  color: #fff;
 }
 
-.btn-primary-custom i {
-  margin-right: 6px;
+.btn:hover {
+  background: #ffffff;
+  color: #0c2c5f;
+  border: 1px solid #0c2c5f;
 }
+
 
 /* CONTENT CARD */
 .content-card {

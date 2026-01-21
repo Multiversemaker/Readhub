@@ -1,7 +1,7 @@
 <main id="mainContent" class="content shifted-collapsed p-4">
 
   <!-- HEADER -->
-  <div class="header-section">
+  <div class="header-section mb-4">
     <div class="header-overlay">
       <h1 class="heading">Edit Buku</h1>
     </div>
@@ -14,70 +14,89 @@
       <div class="row">
         <!-- COVER -->
         <div class="col-md-3">
-          <div class="book-cover-preview">
-            <img src="<%= book.cover_image || '/images/default-book.png' %>" id="coverPreview" class="img-fluid rounded shadow-sm" alt="Cover Buku">
-            <input type="file" name="cover_image" class="form-control mt-3" accept="image/*" onchange="previewImage(event)" />
-          </div>
+          <img src="<%= book.cover_image || '/images/default-book.png' %>" class="img-fluid rounded shadow-sm mb-3" alt="Cover Buku">
+          <input type="file" name="cover_image" class="form-control" accept="image/*">
         </div>
 
         <!-- INPUT -->
         <div class="col-md-9">
           <div class="row g-3">
 
+            <!-- JUDUL -->
             <div class="col-md-6">
               <label class="form-label">Judul Buku</label>
               <input type="text" name="judul" class="form-control" value="<%= book.judul %>" required>
             </div>
 
+            <!-- PENULIS -->
             <div class="col-md-6">
               <label class="form-label">Penulis</label>
               <input type="text" name="penulis" class="form-control" value="<%= book.penulis %>">
             </div>
 
+            <!-- PENERBIT -->
             <div class="col-md-6">
               <label class="form-label">Penerbit</label>
               <input type="text" name="penerbit" class="form-control" value="<%= book.penerbit %>">
             </div>
 
+            <!-- TAHUN -->
             <div class="col-md-6">
               <label class="form-label">Tahun Terbit</label>
               <input type="number" name="tahun_terbit" class="form-control" min="1900" max="2100" value="<%= book.tahun_terbit %>">
             </div>
 
+            <!-- KATEGORI -->
             <div class="col-md-6">
               <label class="form-label">Kategori</label>
               <select name="kategori" class="form-select" required>
                 <% kategoriList.forEach(k => { %>
-                <option value="<%= k.idkategori %>" <%= book.kategori_idkategori === k.idkategori ? 'selected' : '' %>><%= k.nama_kategori %></option>
+                <option value="<%= k.idkategori %>" <%= book.kategori_idkategori === k.idkategori ? 'selected' : '' %>>
+                  <%= k.kategori %>
+                </option>
                 <% }) %>
               </select>
             </div>
 
+            <!-- TIPE -->
             <div class="col-md-6">
               <label class="form-label">Tipe Buku</label>
               <select name="tipe" id="tipeSelect" class="form-select" required>
-                <option value="fisik" <%= book.tipe_idtipe === 1 ? 'selected' : '' %>>Buku Fisik</option>
-                <option value="digital" <%= book.tipe_idtipe === 2 ? 'selected' : '' %>>Buku Digital</option>
+                <option value="fisik" <%= book.tipe_idtipe === 1 ? 'selected' : '' %>>
+                  Buku Fisik
+                </option>
+                <option value="digital" <%= book.tipe_idtipe === 2 ? 'selected' : '' %>>
+                  Buku Digital
+                </option>
               </select>
             </div>
 
-            <!-- FISIK -->
-            <div class="col-md-6" id="stokGroup" <%= book.tipe_idtipe === 2 ? 'style="display:none;"' : '' %>>
-              <label class="form-label">Stok</label>
-              <input type="number" name="stok" class="form-control" value="<%= book.stok_tersedia %>">
+            <!-- STOK (SELALU ADA) -->
+            <div class="col-md-6">
+              <label class="form-label">
+                Stok <small class="text-muted">(fisik = jumlah, digital = kuota)</small>
+              </label>
+              <input type="number" name="stok" class="form-control" min="1" required value="<%= book.stok_tersedia %>">
             </div>
 
+            <!-- LOKASI RAK (FISIK) -->
             <div class="col-md-6" id="rakGroup" <%= book.tipe_idtipe === 2 ? 'style="display:none;"' : '' %>>
               <label class="form-label">Lokasi Rak</label>
               <input type="text" name="lokasi_rak" class="form-control" value="<%= book.lokasi_rak %>">
             </div>
 
-            <!-- DIGITAL -->
+            <!-- FILE DIGITAL -->
             <div class="col-md-6" id="digitalFileGroup" <%= book.tipe_idtipe === 1 ? 'style="display:none;"' : '' %>>
               <label class="form-label">File Buku (PDF)</label>
               <input type="file" name="file_buku" class="form-control" accept=".pdf">
+              <% if (book.file_path_dropbox) { %>
+              <small class="text-muted">
+                File lama sudah tersimpan
+              </small>
+              <% } %>
             </div>
 
+            <!-- DESKRIPSI -->
             <div class="col-md-12">
               <label class="form-label">Deskripsi</label>
               <textarea name="deskripsi" class="form-control" rows="3"><%= book.deskripsi %></textarea>
@@ -89,8 +108,10 @@
 
       <!-- ACTION -->
       <div class="d-flex justify-content-end gap-2 mt-4">
-        <a href="/admin/books" class="btn btn-secondary">Batal</a>
-        <button type="submit" class="btn btn-danger">Simpan Perubahan</button>
+        <a href="/admin/books" class="btn">Batal</a>
+        <button type="submit" class="btn">
+          Simpan Perubahan
+        </button>
       </div>
 
     </form>

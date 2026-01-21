@@ -66,6 +66,10 @@ module.exports = function (sequelize, DataTypes) {
       foreignKey: 'role_idrole',
       as: 'role'
     });
+    User.hasMany(models.peminjaman_fisik, {
+      foreignKey: 'user_id_user',
+      as: 'peminjaman'
+    });
   };
   return User;
 };

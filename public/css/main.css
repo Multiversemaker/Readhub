@@ -1,7 +1,7 @@
-@import url("../css/components/navbar.css");
-@import url("../components/font.css");
-@import url("../css/components/main-content.css");
-@import url("../css/components/scrollbar.css");
+@import url("./components/navbar.css");
+@import url("./components/font.css");
+@import url("./components/main-content.css");
+@import url("./components/scrollbar.css");
 
 .header-overlay {
   padding: 24px;

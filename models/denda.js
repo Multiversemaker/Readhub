@@ -57,13 +57,10 @@ module.exports = function (sequelize, DataTypes) {
     ]
   });
   Denda.associate = (models) => {
-    // Relasi ke pembayaran
     Denda.belongsTo(models.pembayaran, {
       foreignKey: 'pembayaran_idpembayaran',
       as: 'pembayaran'
     });
-
-    // Relasi ke peminjaman fisik
     Denda.belongsTo(models.peminjaman_fisik, {
       foreignKey: 'peminjaman_fisik_idpeminjaman_fisik',
       as: 'peminjaman_fisik'

@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('peminjaman_digital', {
+module.exports = function (sequelize, DataTypes) {
+  const PeminjamanDigital = sequelize.define('peminjaman_digital', {
     idpeminjaman_digital: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -8,11 +8,11 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true
     },
     tanggal_akses: {
-      type: DataTypes.STRING(45),
+      type: DataTypes.DATE,
       allowNull: true
     },
     tanggal_kadaluwarsa: {
-      type: DataTypes.STRING(45),
+      type: DataTypes.DATE,
       allowNull: true
     },
     status: {
@@ -64,4 +64,16 @@ module.exports = function(sequelize, DataTypes) {
       },
     ]
   });
+  PeminjamanDigital.associate = (models) => {
+    PeminjamanDigital.belongsTo(models.buku, {
+      foreignKey: 'buku_id_buku',
+      as: 'buku'
+    });
+
+    PeminjamanDigital.belongsTo(models.user, {
+      foreignKey: 'user_id_user',
+      as: 'user'
+    });
+  };
+  return PeminjamanDigital;
 };

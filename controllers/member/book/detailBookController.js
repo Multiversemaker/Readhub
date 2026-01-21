@@ -7,29 +7,27 @@ const {
 exports.getABookDetailMember = async (req, res) => {
   try {
     const { id } = req.params;
-
-    // Cari buku beserta kategori dan tipe
-   const book = await Buku.findByPk(id, {
-  include: [
-    { model: Kategori, as: "kategori" },
-    { model: Tipe, as: "tipe" }
-  ]
-});
-
+    const book = await Buku.findByPk(id, {
+      include: [
+        { model: Kategori, as: "kategori" },
+        { model: Tipe, as: "tipe" }
+      ]
+    });
 
     if (!book) return res.status(404).send("Buku tidak ditemukan");
 
-    // Mapping agar view bisa pakai nama properti yang mudah
     const mappedBook = {
       id: book.id_buku,
       title: book.judul,
       author: book.penulis,
+      publisher: book.penerbit,          // ← poin 2
       cover: book.cover_image,
       year: book.tahun_terbit,
       description: book.deskripsi,
-      category: book.kategori_idkategori_kategori?.nama_kategori || "-",
-      type: book.tipe_idtipe_tipe?.tipe || "-"
+      category: book.kategori?.kategori || "-",
+      type: book.tipe?.tipe || "-"
     };
+
 
     res.render("member/pages/detail/detail-catalog", {
       layout: "member/layouts/detail/book-detail-layout",
