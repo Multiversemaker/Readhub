@@ -1,22 +1,19 @@
 <main id="mainContent" class="content shifted-collapsed p-4">
 
-  <!-- HEADER -->
   <div class="header-section mb-4">
     <div class="header-overlay">
       <h1 class="heading">Transaksi Peminjaman</h1>
-      <p class="subheading">Kelola peminjaman & pengembalian buku fisik</p>
+      <p class="subheading">Kelola approval & pengembalian buku</p>
     </div>
   </div>
 
-  <!-- ACTION BAR -->
   <div class="action-section mb-4">
     <h3 class="section-title">Riwayat Peminjaman</h3>
-    <a href="/admin/transactions/create" class="btn">
-      <i class="bi bi-plus-circle"></i> Tambah Peminjaman
+    <a href="/admin/transactions/create" class="btn btn-primary">
+      <i class="bi bi-plus-circle"></i> Tambah Manual
     </a>
   </div>
 
-  <!-- TABLE CARD -->
   <div class="content-card">
     <table class="custom-table">
       <thead>
@@ -29,66 +26,104 @@
           <th>Aksi</th>
         </tr>
       </thead>
-
       <tbody>
         <% transactions.forEach(t => { %>
-        <tr>
-          <td class="fw-bold">
-            <%= t.user ? t.user.nama : 'User Terhapus' %>
-          </td>
+          <tr>
+            <td class="fw-bold">
+              <%= t.user ? t.user.nama : 'User Terhapus' %>
+            </td>
 
-          <td>
-            <%= t.buku ? t.buku.judul : 'Buku Terhapus' %>
-            <br>
-            <small class="text-muted">
-              (<%= t.tipe === 'fisik' ? 'Fisik' : 'Digital' %>)
-            </small>
-          </td>
+            <td>
+              <%= t.buku ? t.buku.judul : 'Buku Terhapus' %>
+              <div class="text-muted small">
+                (<%= t.tipe === 'fisik' ? 'Fisik' : 'Digital' %>)
+              </div>
+            </td>
 
+            <td>
+              <%= t.tanggal_pinjam ? new Date(t.tanggal_pinjam).toLocaleDateString('id-ID') : '-' %>
+            </td>
 
-          <td>
-            <%= new Date(t.tanggal_pinjam).toLocaleDateString('id-ID') %>
-          </td>
-
-          <% 
+            <% 
+              let dueDate = t.jatuh_tempo ? new Date(t.jatuh_tempo) : null;
+              let isValidDate = dueDate && !isNaN(dueDate);
               let today = new Date();
-              let dueDate = new Date(t.tanggal_jatuh_tempo);
-              let isLate = today > dueDate && t.status == 'dipinjam';
+              let isLate = isValidDate && today > dueDate && t.status == 'dipinjam';
             %>
 
-          <td class="<%= isLate ? 'late' : '' %>">
-            <%= dueDate.toLocaleDateString('id-ID') %>
-            <% if(isLate) { %>
-            <span class="badge-danger">Terlambat</span>
-            <% } %>
-          </td>
+            <td class="<%= isLate ? 'late' : '' %>">
+              
+              <%= isValidDate ? dueDate.toLocaleDateString('id-ID') : '-' %>
+              
+              <% if(isLate) { %>
+                <br><span class="badge bg-danger">Terlambat</span>
+              <% } %>
 
-          <td>
-            <% if(t.status == 'dipinjam') { %>
-            <span class="badge-primary">Dipinjam</span>
-            <% } else { %>
-            <span class="badge-success">Kembali</span>
-            <% } %>
-          </td>
+              <% if(t.status === 'dipinjam') { %>
+                <button type="button" class="btn btn-sm btn-link text-primary p-0 ms-2" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#editDateModal<%= t.id %>"
+                        title="Ubah Tanggal">
+                  <i class="bi bi-pencil-square"></i>
+                </button>
 
-          <td>
-            <% if(t.tipe === 'fisik' && t.status === 'dipinjam') { %>
-            <form action="/admin/transactions/return/<%= t.id %>" method="POST">
-              <button class="btn-action success">
-                <i class="bi bi-check-circle"></i> Kembalikan
-              </button>
-            </form>
-            <% } else if(t.tipe === 'digital') { %>
-            <span class="badge-secondary">Digital</span>
-            <% } else { %>
-            <span class="done">Selesai</span>
-            <% } %>
-          </td>
+                <div class="modal fade" id="editDateModal<%= t.id %>" tabindex="-1">
+                  <div class="modal-dialog modal-sm modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h6 class="modal-title">Ubah Jatuh Tempo</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                      </div>
+                      <form action="/admin/transactions/update-date/<%= t.id %>" method="POST">
+                        <div class="modal-body">
+                          <label class="form-label small text-muted">Pilih Tanggal Baru:</label>
+                          <input type="date" name="tgl_baru" class="form-control form-control-sm" required
+                                 value="<%= t.jatuh_tempo ? new Date(t.jatuh_tempo).toISOString().split('T')[0] : '' %>">
+                        </div>
+                        <div class="modal-footer p-1 justify-content-center">
+                          <button type="submit" class="btn btn-primary btn-sm w-100">Simpan</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              <% } %>
+            </td>
+            <td>
+              <% if(t.status == 'menunggu_persetujuan') { %>
+                <span class="badge bg-warning text-dark">Menunggu Approval</span>
+              <% } else if(t.status == 'dipinjam') { %>
+                <span class="badge bg-primary">Sedang Dipinjam</span>
+              <% } else if(t.status == 'kembali') { %>
+                <span class="badge bg-success">Sudah Kembali</span>
+              <% } else { %>
+                <span class="badge bg-secondary"><%= t.status %></span>
+              <% } %>
+            </td>
 
-        </tr>
+            <td>
+              <% if(t.tipe === 'fisik' && t.status === 'menunggu_persetujuan') { %>
+                <form action="/admin/transactions/approve/<%= t.id %>" method="POST">
+                  <button class="btn btn-sm btn-success w-100 mb-1">
+                    <i class="bi bi-check-lg"></i> Setujui
+                  </button>
+                </form>
+
+              <% } else if(t.tipe === 'fisik' && t.status === 'dipinjam') { %>
+                <form action="/admin/transactions/return/<%= t.id %>" method="POST"
+                      onsubmit="return confirm('Proses pengembalian buku?');">
+                  <button class="btn btn-sm btn-outline-primary w-100">
+                    <i class="bi bi-box-arrow-in-down"></i> Kembalikan
+                  </button>
+                </form>
+
+              <% } else if(t.status === 'kembali') { %>
+                <span class="text-success small"><i class="bi bi-check-all"></i> Selesai</span>
+              <% } %>
+            </td>
+          </tr>
         <% }) %>
       </tbody>
     </table>
   </div>
-
 </main>
