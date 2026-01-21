@@ -9,127 +9,103 @@
   <div class="card shadow-sm border-0">
     <div class="card-body">
 
-      <% if (loansFisik.length === 0 && loansDigital.length === 0) { %>
-      <div class="text-center py-5">
-        <h4 class="text-muted">Belum ada riwayat peminjaman.</h4>
-        <a href="/member/catalog" class="btn btn-primary mt-3">Cari Buku Sekarang</a>
-      </div>
+      <% if (loans.length === 0) { %>
+        <div class="text-center py-5">
+          <h4 class="text-muted">Belum ada riwayat peminjaman.</h4>
+          <a href="/member/catalog" class="btn btn-primary mt-3">Cari Buku Sekarang</a>
+        </div>
       <% } else { %>
 
-      <!-- ================= BUKU FISIK ================= -->
-      <% if (loansFisik.length > 0) { %>
-      <h5 class="fw-bold mb-3">📚 Peminjaman Buku Fisik</h5>
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Buku</th>
+                <th>Tanggal Pinjam</th>
+                <th>Jatuh Tempo</th>
+                <th>Status</th>
+                <th>Keterangan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% loans.forEach(loan => { %>
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <% if (loan.buku && loan.buku.cover_image) { %>
+                        <img src="<%= loan.buku.cover_image %>" alt="Cover" 
+                             style="width:40px;height:60px;object-fit:cover;margin-right:10px" 
+                             class="rounded">
+                      <% } %>
+                      <span class="fw-bold"><%= loan.buku ? loan.buku.judul : "Buku Dihapus" %></span>
+                    </div>
+                  </td>
 
-      <div class="table-responsive mb-5">
-        <table class="table table-hover align-middle">
-          <thead class="table-light">
-            <tr>
-              <th>Buku</th>
-              <th>Tanggal Pinjam</th>
-              <th>Jatuh Tempo</th>
-              <th>Status</th>
-              <th>Keterangan</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% loansFisik.forEach(loan => { %>
-            <%
+                  <td>
+                    <%= new Date(loan.tanggal_pinjam).toLocaleDateString("id-ID") %>
+                  </td>
+
+                  <%
                     const today = new Date();
                     const dueDate = new Date(loan.tanggal_jatuh_tempo);
-                    const isLate = today > dueDate && !loan.tanggal_kembali;
+                    const isLate = today > dueDate && loan.status == 'dipinjam';
                   %>
 
-            <tr>
-              <td>
-                <div class="d-flex align-items-center">
-                  <% if (loan.buku?.cover_image) { %>
-                  <img src="<%= loan.buku.cover_image %>" alt="Cover" style="width:40px;height:60px;object-fit:cover;margin-right:10px" class="rounded">
-                  <% } %>
-                  <span class="fw-bold"><%= loan.buku?.judul || "Buku Dihapus" %></span>
-                </div>
-              </td>
+                  <td class="<%= isLate ? 'text-danger fw-bold' : '' %>">
+                    <%= dueDate.toLocaleDateString("id-ID") %>
+                    <% if (isLate) { %>
+                      <br><small>Terlambat!</small>
+                    <% } %>
+                  </td>
 
-              <td><%= new Date(loan.tanggal_pinjam).toLocaleDateString("id-ID") %></td>
-
-              <td class="<%= isLate ? 'text-danger fw-bold' : '' %>">
-                <%= dueDate.toLocaleDateString("id-ID") %>
-                <% if (isLate) { %><br><small>Terlambat!</small><% } %>
-              </td>
-
-              <td>
-                <% if (!loan.tanggal_kembali) { %>
-                <span class="badge bg-warning text-dark">Sedang Dipinjam</span>
-                <% } else { %>
-                <span class="badge bg-success">Sudah Kembali</span>
-                <% } %>
-              </td>
-
-              <td>
-                <% if (loan.tanggal_kembali) { %>
-                Dikembalikan:
-                <%= new Date(loan.tanggal_kembali).toLocaleDateString("id-ID") %>
-                <% } else { %>
-                -
-                <% } %>
-              </td>
-            </tr>
-            <% }) %>
-          </tbody>
-        </table>
-      </div>
-      <% } %>
-
-      <!-- ================= BUKU DIGITAL ================= -->
-      <% if (loansDigital.length > 0) { %>
-      <h5 class="fw-bold mb-3">💻 Peminjaman Buku Digital</h5>
-
-      <div class="table-responsive">
-        <table class="table table-hover align-middle">
-          <thead class="table-light">
-            <tr>
-              <th>Buku</th>
-              <th>Tanggal Akses</th>
-              <th>Kedaluwarsa</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% loansDigital.forEach(loan => { %>
-            <tr>
-              <td>
-                <div class="d-flex align-items-center">
-                  <% if (loan.buku?.cover_image) { %>
-                  <img src="<%= loan.buku.cover_image %>" alt="Cover" style="width:40px;height:60px;object-fit:cover;margin-right:10px" class="rounded">
-                  <% } %>
-                  <span class="fw-bold"><%= loan.buku?.judul || "Buku Dihapus" %></span>
-                </div>
-              </td>
-
-              <td>
-                <%= loan.tanggal_akses
-                        ? new Date(loan.tanggal_akses).toLocaleDateString("id-ID")
-                        : "-" %>
-              </td>
-
-              <td>
-                <%= loan.tanggal_kadaluwarsa
-                        ? new Date(loan.tanggal_kadaluwarsa).toLocaleDateString("id-ID")
-                        : "-" %>
-              </td>
-
-              <td>
-                <% if (loan.status === "aktif") { %>
-                <span class="badge bg-success">Aktif</span>
-                <% } else { %>
-                <span class="badge bg-secondary">Kedaluwarsa</span>
-                <% } %>
-              </td>
-            </tr>
-            <% }) %>
-          </tbody>
-        </table>
-      </div>
-      <% } %>
+                  <td>
+                    <% if (loan.status == 'menunggu_persetujuan') { %>
+                      <span class="badge bg-warning text-dark">
+                        <i class="bi bi-hourglass-split"></i> Menunggu Konfirmasi
+                      </span>
+                    
+                    <% } else if (loan.status == 'dipinjam') { %>
+                      <span class="badge bg-success mb-1">
+                        <i class="bi bi-book"></i> Sedang Dipinjam
+                      </span>
+                      
+                      <% if (loan.buku && loan.buku.file_path) { %>
+                        <div class="mt-1">
+                            <a href="<%= loan.buku.file_path %>" target="_blank" class="btn btn-sm btn-outline-primary py-0" style="font-size: 0.75rem;">
+                                <i class="bi bi-eye"></i> Baca Buku
+                            </a>
+                        </div>
+                      <% } else { %>
+                        <div class="mt-1 text-muted" style="font-size: 0.7rem;">(Buku Fisik)</div>
+                      <% } %>
+                    
+                    <% } else { %>
+                      <span class="badge bg-secondary">
+                        <i class="bi bi-check-circle"></i> Sudah Kembali
+                      </span>
+                    <% } %>
+                  </td>
+                  <td>
+                    <% if (loan.status == 'menunggu_persetujuan') { %>
+                      <span class="text-muted small">Menunggu admin menyetujui.</span>
+                    
+                    <% } else if (loan.status == 'dipinjam' && isLate) { %>
+                      <span class="text-danger small fw-bold">Segera kembalikan!</span>
+                    
+                    <% } else if (loan.status == 'kembali') { %>
+                      <span class="text-success small">
+                        Dikembalikan: <%= loan.tanggal_kembali ? new Date(loan.tanggal_kembali).toLocaleDateString("id-ID") : '-' %>
+                      </span>
+                    
+                    <% } else { %>
+                      -
+                    <% } %>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
 
       <% } %>
 
