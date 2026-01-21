@@ -1,110 +1,76 @@
-const { peminjaman_fisik, buku, peminjaman_digital } = require("../../models");
+const { peminjaman_fisik, buku, tipe } = require("../../models");
 
 exports.index = async (req, res) => {
-  try {
-    const user = req.session.user;
-    if (!user) return res.redirect("/login");
+    try {
+        const sessionUser = req.session.user;
+        const userId = sessionUser ? sessionUser.id_user : null;
 
-    const fisik = await peminjaman_fisik.findAll({
-      where: { user_id_user: user.id_user },
-      include: [{ model: buku, as: "buku" }],
-      order: [["tanggal_pinjam", "DESC"]]
-    });
+        if (!userId) {
+            return res.redirect('/login');
+        }
 
-    const digital = await peminjaman_digital.findAll({
-      where: { user_id_user: user.id_user },
-      include: [{ model: buku, as: "buku" }],
-      order: [["tanggal_akses", "DESC"]]
-    });
+        const loans = await peminjaman_fisik.findAll({
+            where: { user_id_user: userId },
+            include: [
+                { model: buku, as: 'buku' }
+            ],
+            order: [['tanggal_pinjam', 'DESC']]
+        });
 
-    res.render("member/pages/circulation", {
-      title: "Riwayat Peminjaman Saya",
-      loansFisik: fisik,
-      loansDigital: digital,
-      layout: "member/layouts/main-layout",
-      currentUser: user
-    });
+        res.render('member/pages/circulation', {
+            title: 'Riwayat Peminjaman Saya',
+            loans: loans,
+            layout: 'member/layouts/main-layout',
+            currentUser: sessionUser
+        });
 
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Server error");
-  }
+    } catch (err) {
+        console.error("Error circulation member:", err);
+        res.status(500).send("Terjadi kesalahan pada server: " + err.message);
+    }
 };
 
-
 exports.pinjamBuku = async (req, res) => {
-  try {
-    console.log("=== PINJAM MEMBER MASUK ===");
+    try {
+        console.log("=== DEBUG PINJAM BUKU ===");
+        console.log("Body yang diterima:", req.body);
+        const { id_buku } = req.body;
+        console.log("ID Buku yang dicari:", id_buku);
 
-    console.log("PARAMS:", req.params);
-    console.log("SESSION USER:", req.session.user);
+        const sessionUser = req.session.user;
+        const userId = sessionUser ? sessionUser.id_user : null;
 
-    const user = req.session.user;
-    const { id_buku } = req.params;
+        if (!userId) return res.redirect('/login');
 
-    if (!user) {
-      console.log("❌ USER TIDAK LOGIN");
-      return res.redirect("/login");
+        
+        const bookData = await buku.findByPk(id_buku, {
+            include: [{ model: tipe, as: 'tipe' }]
+        });
+
+        if (!bookData) return res.status(404).send("Buku tidak ditemukan");
+        if (bookData.stok_tersedia < 1) return res.send("Stok Habis!");
+
+      
+        const tgl_sekarang = new Date();
+        const jatuh_tempo = new Date();
+        jatuh_tempo.setDate(jatuh_tempo.getDate() + 7);
+
+  
+        await peminjaman_fisik.create({
+            user_id_user: userId,
+            buku_id_buku: id_buku,
+            tanggal_pinjam: tgl_sekarang,
+            tanggal_jatuh_tempo: jatuh_tempo,
+            status: 'menunggu_persetujuan' 
+        });
+
+      
+        await bookData.decrement('stok_tersedia', { by: 1 });
+
+        res.redirect('/member/circulation');
+
+    } catch (err) {
+        console.error("Error pinjam buku:", err);
+        res.status(500).send("Gagal meminjam buku: " + err.message);
     }
-
-    console.log("User ID:", user.id_user);
-    console.log("Buku ID:", id_buku);
-
-    const bookData = await buku.findByPk(id_buku, {
-      include: ["tipe"]
-    });
-
-    console.log("BOOK DATA:", bookData?.toJSON());
-
-    if (!bookData) {
-      console.log("❌ BUKU TIDAK DITEMUKAN");
-      return res.redirect("/member/catalog");
-    }
-
-    const tipe = bookData.tipe?.tipe?.toLowerCase();
-    console.log("TIPE BUKU:", tipe);
-
-    const isFisik = tipe?.includes("fisik") || tipe?.includes("cetak");
-
-    console.log("IS FISIK:", isFisik);
-
-    if (isFisik) {
-      console.log("STOK:", bookData.stok_tersedia);
-
-      if (bookData.stok_tersedia < 1) {
-        console.log("❌ STOK HABIS");
-        return res.redirect("/member/catalog");
-      }
-
-      await peminjaman_fisik.create({
-        user_id_user: user.id_user,
-        buku_id_buku: id_buku,
-        tanggal_pinjam: new Date(),
-        tanggal_jatuh_tempo: new Date(Date.now() + 7 * 86400000)
-      });
-
-      console.log("✅ PEMINJAMAN FISIK DIBUAT");
-
-      await bookData.decrement("stok_tersedia", { by: 1 });
-      console.log("📉 STOK DIKURANGI");
-
-    } else {
-      await peminjaman_digital.create({
-        user_id_user: user.id_user,
-        buku_id_buku: id_buku,
-        tanggal_akses: new Date(),
-        tanggal_kedaluwarsa: new Date(Date.now() + 14 * 86400000),
-        status: "aktif"
-      });
-
-      console.log("✅ PEMINJAMAN DIGITAL DIBUAT");
-    }
-
-    console.log("➡️ REDIRECT KE CIRCULATION");
-    res.redirect("/member/circulation");
-
-  } catch (err) {
-    console.error("🔥 ERROR PINJAM:", err);
-    res.redirect("/member/catalog");
-  }
 };
